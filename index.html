@@ -15,6 +15,139 @@ header{display:flex;justify-content:space-between;align-items:center;padding:25p
 #gameCanvas{background:#111827;border:3px solid #a78bfa;border-radius:10px;display:block;margin:0 auto;max-width:100%;height:auto}.score{font-size:20px;margin:10px}.controls{margin:15px auto 5px;display:grid;grid-template-columns:repeat(3,60px);gap:6px;justify-content:center}.controls button{height:52px;border:0;border-radius:12px;background:#ffffff20;color:#fff;font-size:24px;cursor:pointer}.controls .empty{visibility:hidden}
 .tetris-wrap{display:flex;gap:20px;justify-content:center;align-items:flex-start}.tetris-side{text-align:left;min-width:130px}.tetris-side p{margin:10px 0;color:#ddd6fe}.next{background:#111827;border:2px solid #a78bfa;border-radius:8px;padding:8px}.restart{padding:10px 20px;border:0;border-radius:12px;background:#fff;color:#312e81;font-weight:bold;cursor:pointer;margin:10px}.game-title{display:flex;justify-content:space-between;align-items:center;gap:10px}.x{background:none;border:0;color:#fff;font-size:28px;cursor:pointer}
 @media(max-width:600px){header{padding:20px 5%}nav a{margin-left:10px}.hero h1{font-size:52px}.hero p{font-size:18px}.tetris-wrap{gap:10px}.tetris-side{min-width:100px;font-size:14px}}
+
+/* ===== НОВЫЙ ПИНГ-ПОНГ ===== */
+
+.pong-info{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px;
+  margin:10px 0 14px;
+}
+
+.pong-info > div{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  padding:7px 12px;
+  border-radius:16px;
+  font-size:14px;
+}
+
+#pongCanvas{
+  width:100%;
+  max-width:480px;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(59,130,246,.30),transparent 30%),
+    radial-gradient(circle at 80% 80%,rgba(168,85,247,.25),transparent 35%),
+    linear-gradient(135deg,#07111f,#101a33 50%,#07111f);
+  box-shadow:
+    0 15px 45px rgba(0,0,0,.35),
+    inset 0 0 35px rgba(255,255,255,.04);
+}
+
+.pong-shop{
+  margin-top:18px;
+  padding:15px;
+  border-radius:24px;
+  background:rgba(255,255,255,.055);
+  border:1px solid rgba(255,255,255,.10);
+}
+
+.pong-shop h3{
+  margin:0 0 12px;
+  text-align:center;
+}
+
+.pong-shop-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;
+}
+
+.pong-shop-item{
+  border:0;
+  border-radius:18px;
+  padding:11px 8px;
+  cursor:pointer;
+  color:inherit;
+  background:rgba(255,255,255,.09);
+  transition:
+    transform .18s ease,
+    background .18s ease,
+    box-shadow .18s ease;
+}
+
+.pong-shop-item:hover{
+  transform:translateY(-3px) scale(1.02);
+  background:rgba(255,255,255,.15);
+  box-shadow:0 8px 22px rgba(0,0,0,.22);
+}
+
+.pong-shop-item:active{
+  transform:scale(.97);
+}
+
+.pong-shop-item small{
+  opacity:.7;
+}
+
+
+/* ===== TERRARIA ===== */
+
+.terraria-box{
+  max-width:820px;
+}
+
+#terrariaCanvas{
+  display:block;
+  width:100%;
+  max-width:760px;
+  margin:auto;
+  border-radius:22px;
+  background:#6fc7ff;
+  box-shadow:
+    0 20px 55px rgba(0,0,0,.4),
+    inset 0 0 30px rgba(255,255,255,.12);
+  image-rendering:pixelated;
+  cursor:crosshair;
+}
+
+.terraria-info{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:10px 0;
+}
+
+.terraria-info span{
+  padding:7px 12px;
+  border-radius:15px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+}
+
+.terraria-help{
+  text-align:center;
+  font-size:14px;
+  opacity:.8;
+}
+
+
+.terraria-game-btn{
+  background:linear-gradient(135deg,#22c55e,#15803d)!important;
+  color:white!important;
+  border-radius:18px!important;
+  box-shadow:0 8px 24px rgba(34,197,94,.25);
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+
+.terraria-game-btn:hover{
+  transform:translateY(-3px) scale(1.02);
+  box-shadow:0 12px 30px rgba(34,197,94,.4);
+}
+
 </style>
 <style>
 .profile-section,.contact-section{max-width:1100px;margin:45px auto 0;padding:0 20px}
@@ -25,11 +158,1383 @@ header{display:flex;justify-content:space-between;align-items:center;padding:25p
 .telegram-button{display:inline-block;margin-top:10px;padding:13px 20px;border-radius:14px;text-decoration:none;font-weight:700;background:#229ed9;color:white;transition:transform .2s,opacity .2s}
 .telegram-button:hover{transform:translateY(-2px);opacity:.9}
 @media(max-width:600px){.profile-card{flex-direction:column;text-align:center}.avatar{width:75px;height:75px;font-size:34px}}
-</style></head>
+</style>
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+integrity="sha256-p4NxAoJBhIINfQ3F9g7z0K7QZJ5Q5s5Q5s5Q5s5Q5s="
+crossorigin=""/>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+crossorigin="">
+/* =================================================
+   TERRARIA — мини 2D песочница
+   ================================================= */
+
+
+function startTerraria(){
+  closeOverlay('gamesMenu');
+
+  const menu=document.getElementById('terrariaMenu');
+
+  if(menu){
+    menu.style.display='flex';
+    initTerraria();
+  }
+}
+
+function closeTerraria(){
+  clearInterval(terrariaTimer);
+
+  const menu=document.getElementById('terrariaMenu');
+
+  if(menu){
+    menu.style.display='none';
+  }
+}
+
+let terrariaTimer;
+let terrariaKeys = {};
+let terrariaWorld = [];
+let terrariaPlayer;
+let terrariaHealth = 5;
+let terrariaWood = 0;
+let terrariaStone = 0;
+
+const terrariaCanvas =
+  document.getElementById('terrariaCanvas');
+
+const terrariaCtx =
+  terrariaCanvas.getContext('2d');
+
+const TW = 32;
+const TH = 32;
+const WORLD_W = 120;
+const WORLD_H = 16;
+
+function initTerraria(){
+
+  clearInterval(terrariaTimer);
+
+  terrariaHealth = 5;
+  terrariaWood = 0;
+  terrariaStone = 0;
+
+  document.getElementById('terrariaHealth').textContent=5;
+  document.getElementById('terrariaWood').textContent=0;
+  document.getElementById('terrariaStone').textContent=0;
+
+  terrariaWorld=[];
+
+  /*
+    Создаём землю.
+  */
+
+  for(let y=0;y<WORLD_H;y++){
+
+    terrariaWorld[y]=[];
+
+    for(let x=0;x<WORLD_W;x++){
+
+      let groundHeight=9;
+
+      /*
+        Небольшие холмы.
+      */
+
+      groundHeight +=
+        Math.floor(Math.sin(x*.35)*1.2);
+
+      if(y<groundHeight){
+        terrariaWorld[y][x]=0;
+      }
+      else if(y===groundHeight){
+        terrariaWorld[y][x]=1;
+      }
+      else if(y<groundHeight+3){
+        terrariaWorld[y][x]=2;
+      }
+      else{
+        terrariaWorld[y][x]=3;
+      }
+    }
+  }
+
+  /*
+    Деревья.
+  */
+
+  for(let x=5;x<WORLD_W-5;x+=9){
+
+    if(Math.random()<.75){
+
+      const ground=
+        getGroundY(x);
+
+      for(let h=1;h<=3;h++){
+        if(ground-h>=0){
+          terrariaWorld[ground-h][x]=4;
+        }
+      }
+
+      for(let dx=-2;dx<=2;dx++){
+        for(let dy=-5;dy<=-2;dy++){
+
+          const xx=x+dx;
+          const yy=ground+dy;
+
+          if(
+            xx>=0 &&
+            xx<WORLD_W &&
+            yy>=0 &&
+            yy<WORLD_H &&
+            Math.abs(dx)+Math.abs(dy+3)<4
+          ){
+            terrariaWorld[yy][xx]=5;
+          }
+        }
+      }
+    }
+  }
+
+  terrariaPlayer={
+    x:6*TW,
+    y:5*TH,
+    w:22,
+    h:28,
+    vx:0,
+    vy:0,
+    onGround:false
+  };
+
+  terrariaTimer=setInterval(stepTerraria,16);
+}
+
+function getGroundY(x){
+
+  for(let y=0;y<WORLD_H;y++){
+    if(
+      terrariaWorld[y] &&
+      terrariaWorld[y][x]!==0
+    ){
+      return y;
+    }
+  }
+
+  return 9;
+}
+
+function isSolid(x,y){
+
+  if(x<0 || x>=WORLD_W || y>=WORLD_H){
+    return true;
+  }
+
+  if(y<0){
+    return false;
+  }
+
+  return terrariaWorld[y][x]!==0;
+}
+
+function collision(px,py,w,h){
+
+  const left=Math.floor(px/TW);
+  const right=Math.floor((px+w-1)/TW);
+  const top=Math.floor(py/TH);
+  const bottom=Math.floor((py+h-1)/TH);
+
+  for(let y=top;y<=bottom;y++){
+    for(let x=left;x<=right;x++){
+
+      if(isSolid(x,y)){
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+function moveTerrariaPlayer(){
+
+  const acceleration=.65;
+  const maxSpeed=4.5;
+
+  let left=
+    terrariaKeys['KeyA'] ||
+    terrariaKeys['ArrowLeft'];
+
+  let right=
+    terrariaKeys['KeyD'] ||
+    terrariaKeys['ArrowRight'];
+
+  if(left){
+    terrariaPlayer.vx-=acceleration;
+  }
+
+  if(right){
+    terrariaPlayer.vx+=acceleration;
+  }
+
+  if(!left && !right){
+    terrariaPlayer.vx*=.78;
+  }
+
+  terrariaPlayer.vx=Math.max(
+    -maxSpeed,
+    Math.min(maxSpeed,terrariaPlayer.vx)
+  );
+
+  /*
+    Горизонтальное движение.
+  */
+
+  const nx=
+    terrariaPlayer.x+
+    terrariaPlayer.vx;
+
+  if(
+    !collision(
+      nx,
+      terrariaPlayer.y,
+      terrariaPlayer.w,
+      terrariaPlayer.h
+    )
+  ){
+    terrariaPlayer.x=nx;
+  }else{
+    terrariaPlayer.vx=0;
+  }
+
+  /*
+    Гравитация.
+  */
+
+  terrariaPlayer.vy+=.42;
+
+  if(terrariaPlayer.vy>9){
+    terrariaPlayer.vy=9;
+  }
+
+  const ny=
+    terrariaPlayer.y+
+    terrariaPlayer.vy;
+
+  if(
+    !collision(
+      terrariaPlayer.x,
+      ny,
+      terrariaPlayer.w,
+      terrariaPlayer.h
+    )
+  ){
+
+    terrariaPlayer.y=ny;
+    terrariaPlayer.onGround=false;
+
+  }else{
+
+    if(terrariaPlayer.vy>0){
+      terrariaPlayer.onGround=true;
+    }
+
+    terrariaPlayer.vy=0;
+  }
+}
+
+function jumpTerraria(){
+
+  if(terrariaPlayer.onGround){
+
+    terrariaPlayer.vy=-9;
+    terrariaPlayer.onGround=false;
+  }
+}
+
+function drawTerraria(){
+
+  /*
+    Небо.
+  */
+
+  const sky=
+    terrariaCtx.createLinearGradient(
+      0,0,0,terrariaCanvas.height
+    );
+
+  sky.addColorStop(0,'#65c7ff');
+  sky.addColorStop(.65,'#a8e3ff');
+  sky.addColorStop(1,'#d8f3ff');
+
+  terrariaCtx.fillStyle=sky;
+
+  terrariaCtx.fillRect(
+    0,
+    0,
+    terrariaCanvas.width,
+    terrariaCanvas.height
+  );
+
+  /*
+    Солнце.
+  */
+
+  terrariaCtx.fillStyle='#ffe08a';
+
+  terrariaCtx.beginPath();
+
+  terrariaCtx.arc(
+    650,
+    75,
+    35,
+    0,
+    Math.PI*2
+  );
+
+  terrariaCtx.fill();
+
+  /*
+    Камера следует за игроком.
+  */
+
+  const cameraX=Math.max(
+    0,
+    Math.min(
+      WORLD_W*TW-terrariaCanvas.width,
+      terrariaPlayer.x-
+      terrariaCanvas.width/2
+    )
+  );
+
+  const startX=
+    Math.floor(cameraX/TW);
+
+  const endX=
+    startX+
+    Math.ceil(terrariaCanvas.width/TW)+1;
+
+  /*
+    Облака.
+  */
+
+  terrariaCtx.fillStyle='rgba(255,255,255,.75)';
+
+  for(let i=0;i<6;i++){
+
+    const cx=
+      i*180-
+      (cameraX*.15)%180;
+
+    terrariaCtx.beginPath();
+    terrariaCtx.arc(cx,65,18,0,Math.PI*2);
+    terrariaCtx.arc(cx+22,62,25,0,Math.PI*2);
+    terrariaCtx.arc(cx+50,68,17,0,Math.PI*2);
+    terrariaCtx.fill();
+  }
+
+  /*
+    Блоки мира.
+  */
+
+  for(let y=0;y<WORLD_H;y++){
+
+    for(
+      let x=startX;
+      x<Math.min(WORLD_W,endX);
+      x++
+    ){
+
+      const block=terrariaWorld[y][x];
+
+      if(block===0) continue;
+
+      const sx=x*TW-cameraX;
+      const sy=y*TH;
+
+      /*
+        Трава.
+      */
+
+      if(block===1){
+
+        terrariaCtx.fillStyle='#754c29';
+        terrariaCtx.fillRect(sx,sy,TW,TH);
+
+        terrariaCtx.fillStyle='#45a63a';
+        terrariaCtx.fillRect(sx,sy,TW,7);
+      }
+
+      /*
+        Земля.
+      */
+
+      if(block===2){
+
+        terrariaCtx.fillStyle='#79502e';
+        terrariaCtx.fillRect(sx,sy,TW,TH);
+
+        terrariaCtx.fillStyle='rgba(255,255,255,.06)';
+        terrariaCtx.fillRect(sx+5,sy+10,4,4);
+        terrariaCtx.fillRect(sx+20,sy+21,4,4);
+      }
+
+      /*
+        Камень.
+      */
+
+      if(block===3){
+
+        terrariaCtx.fillStyle='#656b75';
+        terrariaCtx.fillRect(sx,sy,TW,TH);
+
+        terrariaCtx.fillStyle='#858b94';
+        terrariaCtx.fillRect(sx+6,sy+7,5,5);
+        terrariaCtx.fillRect(sx+21,sy+20,4,4);
+      }
+
+      /*
+        Ствол.
+      */
+
+      if(block===4){
+
+        terrariaCtx.fillStyle='#70451f';
+        terrariaCtx.fillRect(sx,sy,TW,TH);
+
+        terrariaCtx.fillStyle='#9b642d';
+        terrariaCtx.fillRect(sx+8,sy,5,TH);
+      }
+
+      /*
+        Листья.
+      */
+
+      if(block===5){
+
+        terrariaCtx.fillStyle='#2e8b3c';
+        terrariaCtx.fillRect(sx,sy,TW,TH);
+
+        terrariaCtx.fillStyle='#48ad4e';
+        terrariaCtx.fillRect(
+          sx+5,sy+5,7,7
+        );
+      }
+
+      /*
+        Сетка блоков.
+      */
+
+      terrariaCtx.strokeStyle='rgba(0,0,0,.08)';
+      terrariaCtx.strokeRect(
+        sx,
+        sy,
+        TW,
+        TH
+      );
+    }
+  }
+
+  /*
+    Игрок.
+  */
+
+  const px=
+    terrariaPlayer.x-cameraX;
+
+  const py=
+    terrariaPlayer.y;
+
+  /*
+    Тень.
+  */
+
+  terrariaCtx.fillStyle='rgba(0,0,0,.18)';
+  terrariaCtx.fillRect(
+    px+2,
+    py+25,
+    20,
+    5
+  );
+
+  /*
+    Тело.
+  */
+
+  terrariaCtx.fillStyle='#4f46e5';
+  terrariaCtx.fillRect(
+    px+3,
+    py+10,
+    16,
+    16
+  );
+
+  /*
+    Голова.
+  */
+
+  terrariaCtx.fillStyle='#ffd0a6';
+  terrariaCtx.fillRect(
+    px+4,
+    py,
+    15,
+    13
+  );
+
+  /*
+    Волосы.
+  */
+
+  terrariaCtx.fillStyle='#51321f';
+  terrariaCtx.fillRect(
+    px+3,
+    py,
+    17,
+    5
+  );
+
+  /*
+    Глаз.
+  */
+
+  terrariaCtx.fillStyle='#111827';
+  terrariaCtx.fillRect(
+    px+15,
+    py+6,
+    2,
+    2
+  );
+
+  /*
+    Ноги.
+  */
+
+  terrariaCtx.fillStyle='#27327a';
+  terrariaCtx.fillRect(
+    px+4,
+    py+25,
+    6,
+    5
+  );
+
+  terrariaCtx.fillRect(
+    px+13,
+    py+25,
+    6,
+    5
+  );
+}
+
+function stepTerraria(){
+
+  moveTerrariaPlayer();
+  drawTerraria();
+}
+
+/*
+  Управление работает независимо от раскладки.
+*/
+
+document.addEventListener('keydown',e=>{
+
+  if(
+    document.getElementById('terrariaMenu')?.style.display
+    ==='flex'
+  ){
+
+    if(
+      e.code==='KeyA' ||
+      e.code==='KeyD' ||
+      e.code==='ArrowLeft' ||
+      e.code==='ArrowRight'
+    ){
+      e.preventDefault();
+      terrariaKeys[e.code]=true;
+    }
+
+    if(
+      e.code==='KeyW' ||
+      e.code==='ArrowUp' ||
+      e.code==='Space'
+    ){
+      e.preventDefault();
+      terrariaKeys[e.code]=true;
+      jumpTerraria();
+    }
+  }
+});
+
+document.addEventListener('keyup',e=>{
+
+  terrariaKeys[e.code]=false;
+});
+
+/*
+  ЛКМ — добыча блока.
+*/
+
+terrariaCanvas.addEventListener('click',e=>{
+
+  const rect=terrariaCanvas.getBoundingClientRect();
+
+  const scaleX=
+    terrariaCanvas.width/rect.width;
+
+  const scaleY=
+    terrariaCanvas.height/rect.height;
+
+  const mx=e.clientX-rect.left;
+  const my=e.clientY-rect.top;
+
+  const cameraX=Math.max(
+    0,
+    Math.min(
+      WORLD_W*TW-terrariaCanvas.width,
+      terrariaPlayer.x-
+      terrariaCanvas.width/2
+    )
+  );
+
+  const worldX=
+    Math.floor((mx*scaleX+cameraX)/TW);
+
+  const worldY=
+    Math.floor((my*scaleY)/TH);
+
+  if(
+    worldX<0 ||
+    worldX>=WORLD_W ||
+    worldY<0 ||
+    worldY>=WORLD_H
+  ){
+    return;
+  }
+
+  /*
+    Нельзя добывать слишком далеко.
+  */
+
+  const playerBlockX=
+    Math.floor(terrariaPlayer.x/TW);
+
+  const playerBlockY=
+    Math.floor(terrariaPlayer.y/TH);
+
+  if(
+    Math.abs(worldX-playerBlockX)>4 ||
+    Math.abs(worldY-playerBlockY)>4
+  ){
+    return;
+  }
+
+  const block=terrariaWorld[worldY][worldX];
+
+  if(block===4 || block===5){
+    terrariaWood++;
+  }
+
+  if(block===2 || block===3){
+    terrariaStone++;
+  }
+
+  if(block!==0){
+
+    terrariaWorld[worldY][worldX]=0;
+
+    document.getElementById('terrariaWood').textContent=
+      terrariaWood;
+
+    document.getElementById('terrariaStone').textContent=
+      terrariaStone;
+  }
+});
+
+/*
+  Запускаем игру при открытии.
+*/
+
+
+</script>
+
+<style>
+.apple-welcome {
+  text-align:center;
+  padding:30px 15px;
+}
+
+.apple-welcome h1 {
+  font-size:clamp(52px, 10vw, 100px);
+  line-height:1;
+  margin:0 0 18px;
+  font-weight:700;
+  letter-spacing:-4px;
+  transition:opacity .35s ease, transform .35s ease;
+}
+
+.apple-welcome p {
+  font-size:20px;
+  opacity:.7;
+  margin-bottom:25px;
+}
+
+.welcome-hide {
+  opacity:0;
+  transform:translateY(12px);
+}
+
+.welcome-show {
+  opacity:1;
+  transform:translateY(0);
+}
+</style>
+
+<script>
+const welcomeWords = [
+  "Привет",
+  "Hello",
+  "Bonjour",
+  "Hola",
+  "Ciao",
+  "Hallo",
+  "Olá",
+  "こんにちは",
+  "안녕하세요",
+  "你好"
+];
+
+let welcomeIndex = 0;
+
+setInterval(() => {
+  const el = document.getElementById("welcomeText");
+  if (!el) return;
+
+  el.classList.add("welcome-hide");
+
+  setTimeout(() => {
+    welcomeIndex = (welcomeIndex + 1) % welcomeWords.length;
+    el.textContent = welcomeWords[welcomeIndex];
+    el.classList.remove("welcome-hide");
+    el.classList.add("welcome-show");
+  }, 350);
+
+}, 1800);
+</script>
+
+<!-- HANDWRITING STYLE -->
+<style id="handwriting-style">
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&display=swap');
+
+.handwriting-hero {
+  min-height: 430px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.handwriting-hero::before {
+  content: "";
+  position: absolute;
+  width: 650px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    rgba(90,100,255,.28),
+    rgba(100,40,180,.12),
+    transparent 70%
+  );
+  filter: blur(35px);
+  animation: handwritingGlow 5s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.handwriting-wrap {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.handwriting-line {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 150px;
+  white-space: nowrap;
+}
+
+#handwritingText {
+  font-family: "Caveat", "Segoe Script", "Snell Roundhand",
+               "Brush Script MT", cursive;
+  font-size: clamp(80px, 13vw, 180px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -2px;
+
+  color: transparent;
+  background: linear-gradient(
+    120deg,
+    #ffffff 0%,
+    #f4f1ff 45%,
+    #ffffff 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  display: inline-block;
+
+  clip-path: inset(0 100% 0 0);
+  animation: handwritingWrite 2.2s
+             cubic-bezier(.12,.75,.25,1) forwards;
+
+  text-shadow:
+    0 0 12px rgba(255,255,255,.35),
+    0 0 35px rgba(120,100,255,.22);
+}
+
+#handwritingText.erase {
+  animation: handwritingErase 1s
+             cubic-bezier(.65,0,.85,.25) forwards;
+}
+
+.writing-cursor {
+  display: inline-block;
+  width: 4px;
+  height: 92px;
+  margin-left: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.9);
+  box-shadow: 0 0 14px rgba(255,255,255,.8);
+
+  animation:
+    cursorBlink .65s ease-in-out infinite,
+    cursorMove 2.2s cubic-bezier(.12,.75,.25,1) forwards;
+}
+
+.handwriting-subtitle {
+  margin-top: 25px !important;
+  font-size: clamp(18px, 2.2vw, 26px) !important;
+  opacity: 0;
+  animation: subtitleAppear 1.2s ease .9s forwards;
+}
+
+.handwriting-button {
+  margin-top: 30px !important;
+  opacity: 0;
+  transform: translateY(15px) scale(.96);
+  animation: buttonAppear 1s ease 1.15s forwards;
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.handwriting-button:hover {
+  transform: translateY(-3px) scale(1.04);
+}
+
+@keyframes handwritingWrite {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    filter: blur(3px);
+    transform: translateX(-8px);
+  }
+
+  45% {
+    filter: blur(1px);
+  }
+
+  100% {
+    clip-path: inset(0 0 0 0);
+    filter: blur(0);
+    transform: translateX(0);
+  }
+}
+
+@keyframes handwritingErase {
+  0% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+    filter: blur(0);
+  }
+
+  100% {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+    filter: blur(2px);
+  }
+}
+
+@keyframes cursorBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: .15;
+  }
+}
+
+@keyframes cursorMove {
+  0% {
+    transform: translateX(-20px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes subtitleAppear {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: .9;
+    transform: translateY(0);
+  }
+}
+
+@keyframes buttonAppear {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes handwritingGlow {
+  from {
+    transform: scale(.85);
+    opacity: .55;
+  }
+
+  to {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .handwriting-hero {
+    min-height: 360px !important;
+  }
+
+  .handwriting-line {
+    min-height: 110px;
+  }
+
+  .writing-cursor {
+    height: 65px;
+    width: 3px;
+  }
+}
+
+</style>
+
+
+<style id="flappy-skins-style">
+
+.flappy-box {
+  width: min(94vw, 620px) !important;
+}
+
+.flappy-top {
+  display:flex;
+  justify-content:center;
+  gap:25px;
+  margin:8px 0 12px;
+  font-size:18px;
+}
+
+.flappy-top b {
+  color:#facc15;
+  font-size:21px;
+}
+
+.flappy-shop {
+  margin-top:15px;
+  padding:15px;
+  border-radius:18px;
+  background:#ffffff0d;
+  border:1px solid #ffffff18;
+}
+
+.flappy-shop h3 {
+  margin:0 0 12px;
+  font-size:21px;
+}
+
+.skin-grid {
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:8px;
+}
+
+.skin-btn {
+  min-height:88px;
+  border:1px solid #ffffff22;
+  border-radius:14px;
+  background:#ffffff12;
+  color:white;
+  cursor:pointer;
+  padding:8px 4px;
+  transition:.2s;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+}
+
+.skin-btn:hover {
+  transform:translateY(-4px) scale(1.03);
+  background:#ffffff25;
+}
+
+.skin-btn span {
+  font-size:13px;
+  font-weight:bold;
+}
+
+.skin-btn small {
+  font-size:11px;
+  color:#ddd6fe;
+}
+
+.skin-btn.active {
+  border:2px solid #facc15;
+  box-shadow:0 0 18px #facc1544;
+}
+
+@media(max-width:600px) {
+  .skin-grid {
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .flappy-top {
+    gap:15px;
+    font-size:16px;
+  }
+}
+
+</style>
+
+
+<style>
+.game2048-box{
+  max-width:420px !important;
+  position:relative;
+  overflow:hidden;
+}
+
+.score2048-panel{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin:10px 0 16px;
+}
+
+.score2048-card{
+  min-width:100px;
+  padding:8px 16px;
+  border-radius:14px;
+  background:rgba(0,0,0,.22);
+  text-align:center;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12);
+}
+
+.score2048-card span{
+  display:block;
+  font-size:11px;
+  font-weight:800;
+  opacity:.65;
+  letter-spacing:1.2px;
+}
+
+.score2048-card b{
+  display:block;
+  font-size:25px;
+  margin-top:2px;
+  transition:transform .18s ease;
+}
+
+.score2048-card b.score-pop{
+  animation:scorePop .28s ease;
+}
+
+#grid2048{
+  display:grid;
+  grid-template-columns:repeat(4,70px);
+  gap:8px;
+  justify-content:center;
+  margin:15px auto;
+  padding:9px;
+  width:max-content;
+  border-radius:18px;
+  background:#8f7a66;
+  box-shadow:
+    inset 0 2px 8px rgba(0,0,0,.18),
+    0 10px 25px rgba(0,0,0,.16);
+}
+
+.tile2048{
+  width:70px;
+  height:70px;
+  border-radius:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+  font-weight:900;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,.20),
+    0 3px 7px rgba(0,0,0,.13);
+  transition:
+    transform .12s ease,
+    background .2s ease;
+  user-select:none;
+}
+
+.tile2048.new-tile{
+  animation:tileAppear .22s cubic-bezier(.2,.9,.35,1.35);
+}
+
+.tile2048.merge-tile{
+  animation:tileMerge .28s cubic-bezier(.2,.8,.3,1.45);
+}
+
+.tile2048[data-value="0"]    {background:#cdc1b4;color:transparent}
+.tile2048[data-value="2"]    {background:#eee4da;color:#776e65}
+.tile2048[data-value="4"]    {background:#ede0c8;color:#776e65}
+.tile2048[data-value="8"]    {background:#f2b179;color:#fff}
+.tile2048[data-value="16"]   {background:#f59563;color:#fff}
+.tile2048[data-value="32"]   {background:#f67c5f;color:#fff}
+.tile2048[data-value="64"]   {background:#f65e3b;color:#fff}
+.tile2048[data-value="128"]  {background:#edcf72;color:#fff;font-size:22px}
+.tile2048[data-value="256"]  {background:#edcc61;color:#fff;font-size:22px}
+.tile2048[data-value="512"]  {background:#edc850;color:#fff;font-size:22px}
+.tile2048[data-value="1024"] {background:#edc53f;color:#fff;font-size:19px}
+.tile2048[data-value="2048"] {
+  background:#edc22e;
+  color:#fff;
+  font-size:19px;
+  box-shadow:0 0 22px rgba(237,194,46,.75);
+}
+.tile2048.big-tile{
+  background:linear-gradient(135deg,#7c3aed,#ec4899);
+  color:#fff;
+  font-size:17px;
+}
+
+#score2048Popup{
+  position:absolute;
+  top:70px;
+  left:50%;
+  transform:translateX(-50%);
+  pointer-events:none;
+  z-index:10;
+  font-size:22px;
+  font-weight:900;
+}
+
+.score-fly{
+  animation:scoreFly .75s ease-out forwards;
+}
+
+.hint2048{
+  opacity:.7;
+  font-size:14px;
+}
+
+@keyframes tileAppear{
+  0%{transform:scale(0)}
+  70%{transform:scale(1.14)}
+  100%{transform:scale(1)}
+}
+
+@keyframes tileMerge{
+  0%{transform:scale(1)}
+  45%{transform:scale(1.22)}
+  100%{transform:scale(1)}
+}
+
+@keyframes scorePop{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.28)}
+  100%{transform:scale(1)}
+}
+
+@keyframes scoreFly{
+  0%{opacity:1;transform:translate(-50%,0) scale(.8)}
+  35%{transform:translate(-50%,-12px) scale(1.15)}
+  100%{opacity:0;transform:translate(-50%,-38px) scale(1)}
+}
+
+@media(max-width:420px){
+  #grid2048{
+    grid-template-columns:repeat(4,62px);
+  }
+
+  .tile2048{
+    width:62px;
+    height:62px;
+    font-size:22px;
+  }
+}
+</style>
+
+
+<style>
+.pong-box{
+  max-width:620px!important;
+  overflow:hidden;
+}
+
+.pong-top{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin:8px 0 12px;
+  flex-wrap:wrap;
+}
+
+.pong-score-card{
+  min-width:105px;
+  padding:7px 13px;
+  border-radius:13px;
+  background:rgba(0,0,0,.22);
+  text-align:center;
+}
+
+.pong-score-card span{
+  display:block;
+  font-size:10px;
+  font-weight:800;
+  opacity:.65;
+  letter-spacing:1px;
+}
+
+.pong-score-card b{
+  display:block;
+  font-size:21px;
+  margin-top:2px;
+}
+
+#pongCanvas{
+  width:480px;
+  max-width:100%;
+  border-radius:16px;
+  display:block;
+  margin:auto;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.3),
+    inset 0 0 30px rgba(255,255,255,.08);
+}
+
+.pong-buff{
+  min-height:24px;
+  margin:5px 0 8px;
+  padding:5px 10px;
+  border-radius:10px;
+  background:rgba(255,255,255,.08);
+  font-size:13px;
+  font-weight:700;
+  text-align:center;
+}
+
+.pong-shop{
+  margin-top:12px;
+  padding:12px;
+  border-radius:16px;
+  background:rgba(0,0,0,.13);
+}
+
+.pong-shop h3{
+  margin:0 0 9px;
+}
+
+.pong-shop-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px;
+}
+
+.pong-item{
+  min-height:75px;
+  border:0;
+  border-radius:12px;
+  cursor:pointer;
+  background:rgba(255,255,255,.1);
+  color:inherit;
+  font:inherit;
+  transition:transform .15s,background .15s;
+}
+
+.pong-item:hover{
+  transform:translateY(-3px) scale(1.02);
+  background:rgba(255,255,255,.17);
+}
+
+.pong-item:active{
+  transform:scale(.96);
+}
+
+.pong-item b{
+  display:block;
+  font-size:11px;
+}
+
+.pong-item small{
+  display:block;
+  opacity:.7;
+  font-size:10px;
+  margin-top:3px;
+}
+
+.pong-help{
+  opacity:.7;
+  font-size:13px;
+}
+
+@media(max-width:600px){
+  .pong-shop-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+</style>
+</head>
 <body>
 <header><div class="logo">🚀 MySite</div><nav><a href="#">Главная</a><a href="#about">Обо мне</a><a href="#games">Игры</a><a href="#contact">Контакты</a></nav></header>
 <main>
-<section class="hero"><h1>Привет! 👋</h1><p>Добро пожаловать на мою первую веб-страницу. Здесь я учусь создавать сайты и программировать.</p><a class="button" href="#games">Играть 🎮</a></section>
+
+
+<section class="hero handwriting-hero">
+  <div class="handwriting-wrap">
+    <div class="handwriting-line">
+      <span id="handwritingText">Привет</span><span class="writing-cursor"></span>
+    </div>
+
+    <p class="handwriting-subtitle">
+      Добро пожаловать на мой сайт
+    </p>
+
+    <a class="button handwriting-button" href="#games">
+      Играть 🎮
+    </a>
+  </div>
+</section>
+
+
 <section class="cards" id="about">
 <div class="card"><h2>💻 Программирование</h2><p>Изучаю Python, HTML, CSS и JavaScript.</p></div>
 <div class="card" id="games" onclick="openGames()"><h2>🎮 Игры</h2><p>Нажми сюда и выбери Змейку или Тетрис.</p></div>
@@ -45,14 +1550,27 @@ header{display:flex;justify-content:space-between;align-items:center;padding:25p
 <div class="contact-card"><h2>📱 Мои контакты</h2><p>Если хочешь связаться со мной:</p>
 <a class="telegram-button" href="https://t.me/Ianchik121" target="_blank" rel="noopener noreferrer">✈️ Telegram: @Ianchik121</a></div>
 </section>
+
+
+
+
+<button class="game-btn" onclick="openGame('terrariaMenu')">
+  🌳 Terraria
+</button>
+<button class="game-btn" onclick="openFakeLocation()" style="
+font-size:18px;
+padding:14px 22px;
+font-weight:bold;
+">📍 Моя геолокация</button>
 </main><footer>© 2026 Моя первая страница</footer>
 
 <div class="overlay" id="gamesMenu"><div class="box"><h2>🎮 Выбери игру</h2><button class="game-btn snake-btn" onclick="startSnake()">🐍 Змейка</button><button class="game-btn tetris-btn" onclick="startTetris()">🧱 Тетрис</button>
 <button class="game-btn" onclick="startPong()">🏓 Пинг-понг</button>
+<button class="game-btn terraria-game-btn" onclick="startTerraria()">🌳 Terraria</button>
 <button class="game-btn" onclick="startFlappy()">🐦 Flappy</button>
 <button class="game-btn" onclick="start2048()">🔢 2048</button>
-<button class="game-btn" onclick="startMines()">💣 Сапёр</button>
-<button class="game-btn" onclick="startReaction()">⚡ Реакция</button><button class="close" onclick="closeOverlay('gamesMenu')">Закрыть</button></div></div>
+
+<button class="close" onclick="closeOverlay('gamesMenu')">Закрыть</button></div></div>
 
 <div class="overlay" id="snakeMenu"><div class="box"><div class="game-title"><h2>🐍 Змейка</h2><button class="x" onclick="closeSnake()">×</button></div><div class="score">Счёт: <b id="snakeScore">0</b></div><canvas id="snakeCanvas" width="360" height="360"></canvas><div class="controls"><span class="empty"></span><button onclick="snakeDir(0,-1)">⬆️</button><span class="empty"></span><button onclick="snakeDir(-1,0)">⬅️</button><button onclick="snakeDir(0,1)">⬇️</button><button onclick="snakeDir(1,0)">➡️</button></div><button class="restart" onclick="initSnake()">Начать заново</button><p id="snakeHint">Управление: стрелки на клавиатуре</p></div></div>
 
@@ -96,24 +1614,159 @@ document.addEventListener('keydown',e=>{if(document.getElementById('tetrisMenu')
 </script>
 
 <div class="overlay" id="pongMenu"><div class="box">
-<div class="game-title"><h2>🏓 Пинг-понг</h2><button class="x" onclick="closeGame('pongMenu')">×</button></div>
-<canvas id="pongCanvas" width="480" height="300" style="background:#0b1220;max-width:100%;border-radius:12px"></canvas>
-<p>Счёт: <b id="pongScore">0 : 0</b></p><p>W/S — левая ракетка • ↑/↓ — правая</p>
+<div class="game-title">
+  <h2>🏓 Пинг-понг</h2>
+  <button class="x" onclick="closeGame('pongMenu')">×</button>
+</div>
+
+<div class="pong-info">
+  <div>🏆 Счёт: <b id="pongScore">0 : 0</b></div>
+  <div>🪙 Монеты: <b id="pongCoins">0</b></div>
+  <div>🔥 Уровень: <b id="pongLevel">1</b></div>
+  <div id="pongBuff">✨ Бафов пока нет</div>
+</div>
+
+<canvas id="pongCanvas" width="480" height="300"
+style="max-width:100%;border-radius:24px;display:block;"></canvas>
+
+<p style="text-align:center">
+  ⌨️ Управление: <b>W / S</b> или <b>↑ / ↓</b>
+</p>
+
 <button class="restart" onclick="initPong()">Начать заново</button>
+
+<div class="pong-shop">
+  <h3>🛍️ Магазин</h3>
+
+  <div class="pong-shop-grid">
+    <button class="pong-shop-item" onclick="buyPongBall('classic',0)">
+      ⚪ Классический мяч<br><small>Бесплатно</small>
+    </button>
+
+    <button class="pong-shop-item" onclick="buyPongBall('fire',10)">
+      🔥 Огненный мяч<br><small>10 🪙</small>
+    </button>
+
+    <button class="pong-shop-item" onclick="buyPongBall('ice',20)">
+      ❄️ Ледяной мяч<br><small>20 🪙</small>
+    </button>
+
+    <button class="pong-shop-item" onclick="buyPongBall('gold',35)">
+      🟡 Золотой мяч<br><small>35 🪙</small>
+    </button>
+
+    <button class="pong-shop-item" onclick="buyPongPaddle('classic',0)">
+      🟦 Классическая ракетка<br><small>Бесплатно</small>
+    </button>
+
+    <button class="pong-shop-item" onclick="buyPongPaddle('neon',20)">
+      💜 Неоновая ракетка<br><small>20 🪙</small>
+    </button>
+
+    <button class="pong-shop-item" onclick="buyPongPaddle('gold',40)">
+      🟡 Золотая ракетка<br><small>40 🪙</small>
+    </button>
+
+    <button class="pong-shop-item" onclick="buyPongPaddle('diamond',70)">
+      💎 Алмазная ракетка<br><small>70 🪙</small>
+    </button>
+  </div>
+</div>
+
 </div></div>
 
-<div class="overlay" id="flappyMenu"><div class="box">
-<div class="game-title"><h2>🐦 Flappy</h2><button class="x" onclick="closeGame('flappyMenu')">×</button></div>
-<canvas id="flappyCanvas" width="360" height="420" style="background:#38bdf8;max-width:100%;border-radius:12px"></canvas>
-<p>Счёт: <b id="flappyScore">0</b></p><p>Пробел или клик — взмах</p>
-<button class="restart" onclick="initFlappy()">Начать заново</button>
-</div></div>
 
-<div class="overlay" id="g2048Menu"><div class="box">
-<div class="game-title"><h2>🔢 2048</h2><button class="x" onclick="closeGame('g2048Menu')">×</button></div>
-<p>Счёт: <b id="score2048">0</b></p>
-<div id="grid2048" style="display:grid;grid-template-columns:repeat(4,70px);gap:7px;justify-content:center;margin:15px auto"></div>
-<button class="restart" onclick="init2048()">Начать заново</button><p>Стрелки — двигать плитки</p>
+<div class="overlay" id="flappyMenu">
+  <div class="box flappy-box">
+
+    <div class="game-title">
+      <h2>🐦 Flappy</h2>
+      <button class="x" onclick="closeGame('flappyMenu')">×</button>
+    </div>
+
+    <div class="flappy-top">
+      <div>🏆 Счёт: <b id="flappyScore">0</b></div>
+      <div>🪙 Монеты: <b id="flappyCoins">0</b></div>
+    </div>
+
+    <canvas
+      id="flappyCanvas"
+      width="360"
+      height="420"
+      style="background:#38bdf8;max-width:100%;border-radius:12px;display:block;margin:auto">
+    </canvas>
+
+    <p>Пробел или клик — взмах</p>
+
+    <div class="flappy-shop">
+      <h3>🎨 Скины птицы</h3>
+
+      <div class="skin-grid">
+
+        <button class="skin-btn" onclick="buyFlappySkin('classic',0)">
+          🐦
+          <span>Классика</span>
+          <small>Бесплатно</small>
+        </button>
+
+        <button class="skin-btn" onclick="buyFlappySkin('blue',25)">
+          💙
+          <span>Синяя</span>
+          <small>🪙 25</small>
+        </button>
+
+        <button class="skin-btn" onclick="buyFlappySkin('fire',50)">
+          🔥
+          <span>Огненная</span>
+          <small>🪙 50</small>
+        </button>
+
+        <button class="skin-btn" onclick="buyFlappySkin('galaxy',100)">
+          🌌
+          <span>Космос</span>
+          <small>🪙 100</small>
+        </button>
+
+        <button class="skin-btn" onclick="buyFlappySkin('gold',200)">
+          👑
+          <span>Золотая</span>
+          <small>🪙 200</small>
+        </button>
+
+      </div>
+    </div>
+
+    <button class="restart" onclick="initFlappy()">Начать заново</button>
+
+  </div>
+</div>
+
+
+
+<div class="overlay" id="g2048Menu"><div class="box game2048-box">
+<div class="game-title">
+  <h2>🔢 2048</h2>
+  <button class="x" onclick="closeGame('g2048Menu')">×</button>
+</div>
+
+<div class="score2048-panel">
+  <div class="score2048-card">
+    <span>СЧЁТ</span>
+    <b id="score2048">0</b>
+  </div>
+  <div class="score2048-card">
+    <span>РЕКОРД</span>
+    <b id="best2048">0</b>
+  </div>
+</div>
+
+<div id="score2048Popup"></div>
+
+<div id="grid2048"></div>
+
+<p class="hint2048">⌨️ Используй стрелки для движения</p>
+
+<button class="restart" onclick="init2048()">🔄 Новая игра</button>
 </div></div>
 
 <div class="overlay" id="minesMenu"><div class="box">
@@ -139,124 +1792,1742 @@ function start2048(){closeOverlay('gamesMenu');document.getElementById('g2048Men
 function startMines(){closeOverlay('gamesMenu');document.getElementById('minesMenu').style.display='flex';initMines()}
 function startReaction(){closeOverlay('gamesMenu');document.getElementById('reactionMenu').style.display='flex';initReaction()}
 
-/* ПИНГ-ПОНГ */
-let pongTimer,pL,pR,pBall,pScore;
-const pongCanvas=document.getElementById('pongCanvas');
-const pongCtx=pongCanvas.getContext('2d');
+/* ПИНГ-ПОНГ — плавная версия */
+
+let pongTimer;
+let pL, pR, pBall, pScore;
+let pongCoins = Number(localStorage.getItem('pongCoins') || 0);
+let pongBallSkin = localStorage.getItem('pongBallSkin') || 'classic';
+let pongPaddleSkin = localStorage.getItem('pongPaddleSkin') || 'classic';
+
+let pongLevel = 1;
+let pongPointsForCoins = 0;
+let pongRound = 0;
+
+let pongKeys = {};
+let pongTargetY = 150;
+let pongCurrentY = 150;
+
+const pongCanvas = document.getElementById('pongCanvas');
+const pongCtx = pongCanvas.getContext('2d');
+
+const pongBallStyles = {
+  classic: ['#ffffff','#cbd5e1'],
+  fire: ['#ffb300','#ef4444'],
+  ice: ['#dff9ff','#38bdf8'],
+  gold: ['#fff59d','#f59e0b']
+};
+
+const pongPaddleStyles = {
+  classic: ['#60a5fa','#2563eb'],
+  neon: ['#f0abfc','#a855f7'],
+  gold: ['#fff59d','#eab308'],
+  diamond: ['#cffafe','#06b6d4']
+};
+
+function updatePongUI(){
+  document.getElementById('pongCoins').textContent = pongCoins;
+  document.getElementById('pongLevel').textContent = pongLevel;
+
+  const buff = localStorage.getItem('pongBuffText');
+  document.getElementById('pongBuff').textContent =
+    buff || '✨ Бафов пока нет';
+}
+
+function savePong(){
+  localStorage.setItem('pongCoins', pongCoins);
+  localStorage.setItem('pongBallSkin', pongBallSkin);
+  localStorage.setItem('pongPaddleSkin', pongPaddleSkin);
+}
 
 function initPong(){
- clearInterval(pongTimer);
- pL=120;pR=120;pScore=[0,0];
- pBall={x:240,y:150,dx:4,dy:3};
- document.getElementById('pongScore').textContent='0 : 0';
- pongTimer=setInterval(stepPong,16);
+
+  clearInterval(pongTimer);
+
+  pL = {
+    x:18,
+    y:125,
+    w:16,
+    h:70,
+    velocity:0
+  };
+
+  pR = {
+    x:446,
+    y:125,
+    w:16,
+    h:70,
+    velocity:0
+  };
+
+  pBall = {
+    x:240,
+    y:150,
+    vx:3.2,
+    vy:1.7,
+    r:9
+  };
+
+  pScore=[0,0];
+
+  pongLevel=1;
+  pongPointsForCoins=0;
+  pongRound=0;
+
+  pongTargetY=150;
+  pongCurrentY=150;
+
+  localStorage.removeItem('pongBuffText');
+
+  document.getElementById('pongScore').textContent='0 : 0';
+
+  updatePongUI();
+
+  pongTimer=setInterval(stepPong,16);
 }
+
+function addPongCoin(){
+
+  pongPointsForCoins++;
+
+  if(pongPointsForCoins>=2){
+    pongCoins++;
+    pongPointsForCoins=0;
+    savePong();
+    updatePongUI();
+  }
+}
+
+function increasePongDifficulty(){
+
+  /*
+    Сложность растёт очень плавно.
+    Каждые 3 очка немного увеличиваем скорость.
+  */
+
+  const total=pScore[0]+pScore[1];
+
+  pongLevel=1+Math.floor(total/3);
+
+  const maxSpeed=6.2;
+
+  const currentSpeed=Math.hypot(pBall.vx,pBall.vy);
+  const newSpeed=Math.min(
+    maxSpeed,
+    3.0 + (pongLevel-1)*0.16
+  );
+
+  if(currentSpeed>0){
+    pBall.vx=pBall.vx/currentSpeed*newSpeed;
+    pBall.vy=pBall.vy/currentSpeed*newSpeed;
+  }
+
+  updatePongUI();
+}
+
+function resetPong(direction){
+
+  pBall.x=240;
+  pBall.y=150;
+
+  const speed=Math.min(
+    6.2,
+    3.0+(pongLevel-1)*0.16
+  );
+
+  pBall.vx=direction*speed;
+  pBall.vy=(Math.random()>.5?1:-1)*(1.4+Math.random()*1.3);
+
+  pongRound++;
+
+  if(pongRound%5===0){
+    givePongBuff();
+  }
+}
+
+function givePongBuff(){
+
+  const buffs=[
+    {
+      text:'🔥 БАФ: тройной мяч!',
+      type:'triple'
+    },
+    {
+      text:'🛡️ БАФ: защита твоих ворот!',
+      type:'shield'
+    },
+    {
+      text:'⚡ БАФ: ускорение!',
+      type:'speed'
+    }
+  ];
+
+  const buff=buffs[Math.floor(Math.random()*buffs.length)];
+
+  localStorage.setItem('pongBuffText',buff.text);
+  updatePongUI();
+
+  if(buff.type==='speed'){
+    pBall.vx*=1.12;
+    pBall.vy*=1.12;
+  }
+}
+
+function movePlayer(){
+
+  let direction=0;
+
+  /*
+    event.code работает одинаково при русской,
+    английской и других раскладках.
+  */
+
+  if(pongKeys['KeyW'] || pongKeys['ArrowUp']){
+    direction=-1;
+  }
+
+  if(pongKeys['KeyS'] || pongKeys['ArrowDown']){
+    direction=1;
+  }
+
+  const acceleration=0.75;
+  const maxSpeed=6;
+
+  if(direction!==0){
+    pL.velocity += direction*acceleration;
+  }else{
+    /*
+      Плавное торможение.
+    */
+    pL.velocity*=0.82;
+  }
+
+  pL.velocity=Math.max(
+    -maxSpeed,
+    Math.min(maxSpeed,pL.velocity)
+  );
+
+  pL.y+=pL.velocity;
+
+  pL.y=Math.max(
+    8,
+    Math.min(pongCanvas.height-pL.h-8,pL.y)
+  );
+}
+
+function moveBot(){
+
+  const center = pR.y + pR.h / 2;
+  const difference = pBall.y - center;
+
+  /*
+    Бот постепенно становится сильнее.
+    Первые уровни специально лёгкие.
+  */
+
+  let botSpeed;
+
+  if(pongLevel <= 1){
+    botSpeed = 0.70;
+  }
+  else if(pongLevel === 2){
+    botSpeed = 0.90;
+  }
+  else if(pongLevel === 3){
+    botSpeed = 1.10;
+  }
+  else if(pongLevel === 4){
+    botSpeed = 1.30;
+  }
+  else if(pongLevel === 5){
+    botSpeed = 1.50;
+  }
+  else if(pongLevel === 6){
+    botSpeed = 1.70;
+  }
+  else if(pongLevel === 7){
+    botSpeed = 1.90;
+  }
+  else {
+    botSpeed = Math.min(
+      2.70,
+      1.90 + (pongLevel - 7) * 0.10
+    );
+  }
+
+  /*
+    Небольшая задержка реакции.
+    Благодаря этому бот не повторяет
+    движение мяча идеально.
+  */
+
+  const reactionZone = 14;
+
+  if(Math.abs(difference) > reactionZone){
+    pR.y += Math.sign(difference) * botSpeed;
+  }
+
+  /*
+    Границы поля.
+  */
+
+  pR.y = Math.max(
+    8,
+    Math.min(
+      pongCanvas.height - pR.h - 8,
+      pR.y
+    )
+  );
+}
+
 function stepPong(){
- pBall.x+=pBall.dx;pBall.y+=pBall.dy;
- if(pBall.y<8||pBall.y>292)pBall.dy*=-1;
- if(pBall.x<35&&pBall.y>pL&&pBall.y<pL+60)pBall.dx=Math.abs(pBall.dx);
- if(pBall.x>445&&pBall.y>pR&&pBall.y<pR+60)pBall.dx=-Math.abs(pBall.dx);
- pR+=(pBall.y-30-pR)*.04;
- if(pBall.x<0){pScore[1]++;resetPong(1)}
- if(pBall.x>480){pScore[0]++;resetPong(-1)}
- document.getElementById('pongScore').textContent=pScore[0]+' : '+pScore[1];
- pongCtx.fillStyle='#0b1220';pongCtx.fillRect(0,0,480,300);
- pongCtx.fillStyle='white';
- pongCtx.fillRect(18,pL,10,60);pongCtx.fillRect(452,pR,10,60);
- pongCtx.beginPath();pongCtx.arc(pBall.x,pBall.y,8,0,Math.PI*2);pongCtx.fill();
+
+  movePlayer();
+  moveBot();
+
+  pBall.x+=pBall.vx;
+  pBall.y+=pBall.vy;
+
+  /*
+    Верхняя и нижняя стены.
+  */
+
+  if(pBall.y-pBall.r<=0){
+    pBall.y=pBall.r;
+    pBall.vy=Math.abs(pBall.vy);
+  }
+
+  if(pBall.y+pBall.r>=pongCanvas.height){
+    pBall.y=pongCanvas.height-pBall.r;
+    pBall.vy=-Math.abs(pBall.vy);
+  }
+
+  /*
+    Левая ракетка.
+  */
+
+  if(
+    pBall.x-pBall.r<=pL.x+pL.w &&
+    pBall.x>pL.x &&
+    pBall.y>=pL.y &&
+    pBall.y<=pL.y+pL.h
+  ){
+
+    pBall.x=pL.x+pL.w+pBall.r;
+
+    pBall.vx=Math.abs(pBall.vx);
+
+    const hit=
+      (pBall.y-(pL.y+pL.h/2))/(pL.h/2);
+
+    pBall.vy+=hit*0.75;
+
+    normalizePongBall();
+  }
+
+  /*
+    Правая ракетка — бот.
+  */
+
+  if(
+    pBall.x+pBall.r>=pR.x &&
+    pBall.x<pR.x+pR.w &&
+    pBall.y>=pR.y &&
+    pBall.y<=pR.y+pR.h
+  ){
+
+    pBall.x=pR.x-pBall.r;
+
+    pBall.vx=-Math.abs(pBall.vx);
+
+    const hit=
+      (pBall.y-(pR.y+pR.h/2))/(pR.h/2);
+
+    pBall.vy+=hit*0.65;
+
+    normalizePongBall();
+  }
+
+  /*
+    Гол.
+  */
+
+  if(pBall.x<0){
+
+    pScore[1]++;
+    addPongCoin();
+    increasePongDifficulty();
+
+    document.getElementById('pongScore').textContent=
+      pScore[0]+' : '+pScore[1];
+
+    resetPong(1);
+  }
+
+  if(pBall.x>pongCanvas.width){
+
+    pScore[0]++;
+    addPongCoin();
+    increasePongDifficulty();
+
+    document.getElementById('pongScore').textContent=
+      pScore[0]+' : '+pScore[1];
+
+    resetPong(-1);
+  }
+
+  drawPong();
 }
-function resetPong(d){pBall={x:240,y:150,dx:4*d,dy:Math.random()>.5?3:-3}}
+
+function normalizePongBall(){
+
+  const maxSpeed=Math.min(
+    6.2,
+    3.0+(pongLevel-1)*0.16
+  );
+
+  const speed=Math.hypot(pBall.vx,pBall.vy);
+
+  if(speed>maxSpeed){
+
+    pBall.vx=pBall.vx/speed*maxSpeed;
+    pBall.vy=pBall.vy/speed*maxSpeed;
+  }
+}
+
+function roundRect(ctx,x,y,w,h,r){
+
+  const radius=Math.min(r,w/2,h/2);
+
+  ctx.beginPath();
+  ctx.roundRect(x,y,w,h,radius);
+  ctx.closePath();
+}
+
+function drawPaddle(p,skin){
+
+  const styles=pongPaddleStyles[skin]||pongPaddleStyles.classic;
+
+  const gradient=pongCtx.createLinearGradient(
+    p.x,p.y,
+    p.x+p.w,p.y+p.h
+  );
+
+  gradient.addColorStop(0,styles[0]);
+  gradient.addColorStop(1,styles[1]);
+
+  pongCtx.save();
+
+  /*
+    Свечение.
+  */
+
+  pongCtx.shadowBlur=18;
+  pongCtx.shadowColor=styles[1];
+
+  roundRect(
+    pongCtx,
+    p.x,
+    p.y,
+    p.w,
+    p.h,
+    9
+  );
+
+  pongCtx.fillStyle=gradient;
+  pongCtx.fill();
+
+  pongCtx.restore();
+}
+
+function drawBall(){
+
+  const styles=
+    pongBallStyles[pongBallSkin]||
+    pongBallStyles.classic;
+
+  const gradient=pongCtx.createRadialGradient(
+    pBall.x-3,
+    pBall.y-3,
+    1,
+    pBall.x,
+    pBall.y,
+    pBall.r
+  );
+
+  gradient.addColorStop(0,'#ffffff');
+  gradient.addColorStop(.35,styles[0]);
+  gradient.addColorStop(1,styles[1]);
+
+  pongCtx.save();
+
+  pongCtx.shadowBlur=20;
+  pongCtx.shadowColor=styles[1];
+
+  pongCtx.beginPath();
+  pongCtx.arc(
+    pBall.x,
+    pBall.y,
+    pBall.r,
+    0,
+    Math.PI*2
+  );
+
+  pongCtx.fillStyle=gradient;
+  pongCtx.fill();
+
+  pongCtx.restore();
+}
+
+function drawPong(){
+
+  /*
+    Фон.
+  */
+
+  const bg=pongCtx.createLinearGradient(
+    0,0,
+    pongCanvas.width,
+    pongCanvas.height
+  );
+
+  bg.addColorStop(0,'#06101f');
+  bg.addColorStop(.5,'#111c36');
+  bg.addColorStop(1,'#090d20');
+
+  pongCtx.fillStyle=bg;
+  pongCtx.fillRect(
+    0,
+    0,
+    pongCanvas.width,
+    pongCanvas.height
+  );
+
+  /*
+    Светящиеся круги на фоне.
+  */
+
+  pongCtx.globalAlpha=.13;
+
+  pongCtx.beginPath();
+  pongCtx.arc(90,70,70,0,Math.PI*2);
+  pongCtx.fillStyle='#38bdf8';
+  pongCtx.fill();
+
+  pongCtx.beginPath();
+  pongCtx.arc(390,230,90,0,Math.PI*2);
+  pongCtx.fillStyle='#a855f7';
+  pongCtx.fill();
+
+  pongCtx.globalAlpha=1;
+
+  /*
+    Центральная линия.
+  */
+
+  pongCtx.setLineDash([8,10]);
+  pongCtx.strokeStyle='rgba(255,255,255,.18)';
+  pongCtx.lineWidth=2;
+
+  pongCtx.beginPath();
+  pongCtx.moveTo(240,0);
+  pongCtx.lineTo(240,300);
+  pongCtx.stroke();
+
+  pongCtx.setLineDash([]);
+
+  /*
+    Ракетки.
+  */
+
+  drawPaddle(pL,pongPaddleSkin);
+  drawPaddle(pR,'classic');
+
+  /*
+    Мяч.
+  */
+
+  drawBall();
+
+  /*
+    Если есть защита — рисуем щит
+    только у ворот игрока.
+  */
+
+  if(localStorage.getItem('pongBuffText')?.includes('защита')){
+
+    pongCtx.save();
+
+    pongCtx.strokeStyle='rgba(56,189,248,.75)';
+    pongCtx.lineWidth=4;
+    pongCtx.shadowBlur=18;
+    pongCtx.shadowColor='#38bdf8';
+
+    pongCtx.beginPath();
+    pongCtx.moveTo(4,15);
+    pongCtx.lineTo(4,285);
+    pongCtx.stroke();
+
+    pongCtx.restore();
+  }
+}
+
+/*
+  Любая раскладка клавиатуры:
+  используем физический код клавиши.
+*/
+
 document.addEventListener('keydown',e=>{
- if(document.getElementById('pongMenu').style.display!=='flex')return;
- if(e.key.toLowerCase()==='w')pL-=12;
- if(e.key.toLowerCase()==='s')pL+=12;
- if(e.key==='ArrowUp')pR-=12;
- if(e.key==='ArrowDown')pR+=12;
+
+  if(
+    document.getElementById('pongMenu')?.style.display==='flex'
+  ){
+
+    if(
+      e.code==='KeyW' ||
+      e.code==='KeyS' ||
+      e.code==='ArrowUp' ||
+      e.code==='ArrowDown'
+    ){
+      e.preventDefault();
+      pongKeys[e.code]=true;
+    }
+
+  }
 });
 
-/* FLAPPY */
-let flappyTimer,bird,flappyPipes,flappyScore,flappyOver;
-const flappyCanvas=document.getElementById('flappyCanvas');
-const flappyCtx=flappyCanvas.getContext('2d');
+document.addEventListener('keyup',e=>{
+
+  if(
+    e.code==='KeyW' ||
+    e.code==='KeyS' ||
+    e.code==='ArrowUp' ||
+    e.code==='ArrowDown'
+  ){
+    pongKeys[e.code]=false;
+  }
+
+});
+
+function buyPongBall(skin,price){
+
+  const owned=
+    JSON.parse(localStorage.getItem('pongOwnedBalls')||'["classic"]');
+
+  if(!owned.includes(skin)){
+
+    if(pongCoins<price){
+      alert('Не хватает монет 🪙');
+      return;
+    }
+
+    pongCoins-=price;
+    owned.push(skin);
+
+    localStorage.setItem(
+      'pongOwnedBalls',
+      JSON.stringify(owned)
+    );
+  }
+
+  pongBallSkin=skin;
+  savePong();
+  updatePongUI();
+}
+
+function buyPongPaddle(skin,price){
+
+  const owned=
+    JSON.parse(localStorage.getItem('pongOwnedPaddles')||'["classic"]');
+
+  if(!owned.includes(skin)){
+
+    if(pongCoins<price){
+      alert('Не хватает монет 🪙');
+      return;
+    }
+
+    pongCoins-=price;
+    owned.push(skin);
+
+    localStorage.setItem(
+      'pongOwnedPaddles',
+      JSON.stringify(owned)
+    );
+  }
+
+  pongPaddleSkin=skin;
+  savePong();
+  updatePongUI();
+}
+
+/* Звук сбора монеты */
+function playCoinSound(){
+
+  try{
+
+    const AudioContext =
+      window.AudioContext ||
+      window.webkitAudioContext;
+
+    const audio =
+      new AudioContext();
+
+    const osc =
+      audio.createOscillator();
+
+    const gain =
+      audio.createGain();
+
+    osc.type = 'sine';
+
+    osc.frequency.setValueAtTime(
+      700,
+      audio.currentTime
+    );
+
+    osc.frequency.exponentialRampToValueAtTime(
+      1200,
+      audio.currentTime + .12
+    );
+
+    gain.gain.setValueAtTime(
+      .0001,
+      audio.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+      .18,
+      audio.currentTime + .01
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+      .0001,
+      audio.currentTime + .15
+    );
+
+    osc.connect(gain);
+    gain.connect(audio.destination);
+
+    osc.start();
+    osc.stop(
+      audio.currentTime + .16
+    );
+
+  }catch(e){}
+}
+
+
+/* FLAPPY — ПТИЦА + МОНЕТЫ + СКИНЫ */
+
+let flappyTimer;
+let bird;
+let flappyPipes;
+let flappyCoin;
+let flappyScore;
+let flappyOver;
+let flappyFrame = 0;
+let collectedCoin = null;
+
+const flappyCanvas = document.getElementById('flappyCanvas');
+const flappyCtx = flappyCanvas.getContext('2d');
+
+/* Монеты игрока сохраняются в браузере */
+let flappyCoinsBank =
+  Number(localStorage.getItem('flappyCoins')) || 0;
+
+/* Купленные скины */
+let flappyOwnedSkins =
+  JSON.parse(localStorage.getItem('flappyOwnedSkins') || '["classic"]');
+
+/* Текущий скин */
+let flappySkin =
+  localStorage.getItem('flappySkin') || 'classic';
+
+const flappySkins = {
+  classic: {
+    body:'#facc15',
+    wing:'#f59e0b',
+    beak:'#f97316',
+    name:'Классика'
+  },
+
+  blue: {
+    body:'#38bdf8',
+    wing:'#0284c7',
+    beak:'#f97316',
+    name:'Синяя'
+  },
+
+  fire: {
+    body:'#ef4444',
+    wing:'#f97316',
+    beak:'#fde047',
+    name:'Огненная'
+  },
+
+  galaxy: {
+    body:'#a855f7',
+    wing:'#6366f1',
+    beak:'#f9a8d4',
+    name:'Космос'
+  },
+
+  gold: {
+    body:'#fde047',
+    wing:'#eab308',
+    beak:'#f97316',
+    name:'Золотая'
+  }
+};
+
+function updateFlappyCoins(){
+  document.getElementById('flappyCoins').textContent =
+    flappyCoinsBank;
+}
+
+function saveFlappyData(){
+  localStorage.setItem(
+    'flappyCoins',
+    flappyCoinsBank
+  );
+
+  localStorage.setItem(
+    'flappyOwnedSkins',
+    JSON.stringify(flappyOwnedSkins)
+  );
+
+  localStorage.setItem(
+    'flappySkin',
+    flappySkin
+  );
+}
+
+/* Покупка / выбор скина */
+function buyFlappySkin(skin,cost){
+
+  if(flappyOwnedSkins.includes(skin)){
+    flappySkin = skin;
+    saveFlappyData();
+    updateSkinButtons();
+    return;
+  }
+
+  if(flappyCoinsBank < cost){
+    alert(
+      '🪙 Недостаточно монет!\n\n' +
+      'Нужно: ' + cost + '\n' +
+      'У тебя: ' + flappyCoinsBank
+    );
+    return;
+  }
+
+  flappyCoinsBank -= cost;
+
+  flappyOwnedSkins.push(skin);
+  flappySkin = skin;
+
+  saveFlappyData();
+  updateFlappyCoins();
+  updateSkinButtons();
+}
+
+function updateSkinButtons(){
+
+  const buttons =
+    document.querySelectorAll('.skin-btn');
+
+  const skins =
+    ['classic','blue','fire','galaxy','gold'];
+
+  buttons.forEach((button,i)=>{
+
+    const skin = skins[i];
+
+    button.classList.toggle(
+      'active',
+      flappySkin === skin
+    );
+
+    if(flappyOwnedSkins.includes(skin)){
+      button.style.opacity = '1';
+    }else{
+      button.style.opacity = '.55';
+    }
+
+  });
+}
 
 function initFlappy(){
- clearInterval(flappyTimer);
- bird={x:70,y:200,vy:0};
- flappyPipes=[{x:360,gap:170,passed:false}];
- flappyScore=0;flappyOver=false;
- document.getElementById('flappyScore').textContent='0';
- flappyTimer=setInterval(stepFlappy,30);
-}
-function flap(){if(!flappyOver)bird.vy=-7}
-flappyCanvas.onclick=flap;
-document.addEventListener('keydown',e=>{
- if(e.code==='Space'&&document.getElementById('flappyMenu').style.display==='flex'){e.preventDefault();flap()}
-});
-function stepFlappy(){
- bird.vy+=.35;bird.y+=bird.vy;
- if(flappyPipes[flappyPipes.length-1].x<220)
-   flappyPipes.push({x:360,gap:100+Math.random()*220,passed:false});
- flappyPipes.forEach(p=>p.x-=2.5);
- if(flappyPipes[0].x<-60)flappyPipes.shift();
- for(const p of flappyPipes){
-   if(!p.passed&&p.x+50<bird.x){p.passed=true;flappyScore++;document.getElementById('flappyScore').textContent=flappyScore}
-   if(bird.x+14>p.x&&bird.x-14<p.x+50&&(bird.y-14<p.gap-65||bird.y+14>p.gap+65))flappyOver=true;
- }
- if(bird.y<0||bird.y>420)flappyOver=true;
- flappyCtx.fillStyle='#38bdf8';flappyCtx.fillRect(0,0,360,420);
- flappyCtx.fillStyle='#22c55e';
- flappyPipes.forEach(p=>{flappyCtx.fillRect(p.x,0,50,p.gap-65);flappyCtx.fillRect(p.x,p.gap+65,50,420)});
- flappyCtx.fillStyle='#facc15';flappyCtx.beginPath();flappyCtx.arc(bird.x,bird.y,14,0,Math.PI*2);flappyCtx.fill();
- if(flappyOver){flappyCtx.fillStyle='#111';flappyCtx.font='bold 25px Arial';flappyCtx.textAlign='center';flappyCtx.fillText('Игра окончена',180,210);clearInterval(flappyTimer)}
+
+  clearInterval(flappyTimer);
+
+  bird = {
+    x:70,
+    y:200,
+    vy:0,
+    rotation:0,
+    wing:0
+  };
+
+  flappyPipes = [
+    {
+      x:360,
+      gap:170,
+      passed:false
+    }
+  ];
+
+  flappyCoin = null;
+  collectedCoin = null;
+
+  flappyScore = 0;
+  flappyOver = false;
+  flappyFrame = 0;
+
+  document.getElementById(
+    'flappyScore'
+  ).textContent = '0';
+
+  updateFlappyCoins();
+  updateSkinButtons();
+
+  drawFlappy();
+
+  flappyTimer =
+    setInterval(stepFlappy,30);
 }
 
-/* 2048 */
-let grid2048,score2048;
-function init2048(){grid2048=Array(16).fill(0);score2048=0;add2048();add2048();render2048()}
-function add2048(){
- let free=grid2048.map((v,i)=>v?null:i).filter(v=>v!==null);
- if(free.length)grid2048[free[Math.floor(Math.random()*free.length)]]=Math.random()<.9?2:4;
+function flap(){
+
+  if(!flappyOver){
+    bird.vy = -7;
+    bird.wing = 1;
+  }
 }
-function move2048(dir){
- let old=grid2048.join();
- function line(a){
-   a=a.filter(Boolean);
-   for(let i=0;i<a.length-1;i++)if(a[i]===a[i+1]){a[i]*=2;score2048+=a[i];a[i+1]=0}
-   a=a.filter(Boolean);
-   while(a.length<4)a.push(0);
-   return a;
- }
- for(let r=0;r<4;r++){
-   let a=[];
-   for(let c=0;c<4;c++){
-     let i=dir==='left'?r*4+c:dir==='right'?r*4+3-c:dir==='up'?c*4+r:3*4+c-r*4;
-     a.push(grid2048[i]);
-   }
-   if(dir==='right'||dir==='down')a.reverse();
-   a=line(a);
-   if(dir==='right'||dir==='down')a.reverse();
-   for(let c=0;c<4;c++){
-     let i=dir==='left'?r*4+c:dir==='right'?r*4+3-c:dir==='up'?c*4+r:3*4+c-r*4;
-     grid2048[i]=a[c];
-   }
- }
- if(old!==grid2048.join())add2048();
- render2048();
-}
-function render2048(){
- let g=document.getElementById('grid2048');g.innerHTML='';
- grid2048.forEach(v=>{
-   let d=document.createElement('div');
-   d.style='width:70px;height:70px;border-radius:10px;background:#334155;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:bold';
-   d.textContent=v||'';g.appendChild(d);
- });
- document.getElementById('score2048').textContent=score2048;
-}
+
+flappyCanvas.onclick = flap;
+
 document.addEventListener('keydown',e=>{
- if(document.getElementById('g2048Menu').style.display!=='flex')return;
- let d={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'up',ArrowDown:'down'}[e.key];
- if(d){e.preventDefault();move2048(d)}
+
+  if(
+    e.code === 'Space' &&
+    document.getElementById(
+      'flappyMenu'
+    ).style.display === 'flex'
+  ){
+
+    e.preventDefault();
+    flap();
+  }
+
 });
+
+/* Создание монеты */
+function createFlappyCoin(){
+
+  const last =
+    flappyPipes[flappyPipes.length-1];
+
+  flappyCoin = {
+    x:420,
+    y:last.gap + (Math.random()*80-40),
+    r:10,
+    collected:false,
+    spin:0
+  };
+}
+
+/* Основная игра */
+function stepFlappy(){
+
+  if(flappyOver) return;
+
+  flappyFrame++;
+
+  /* Физика птицы */
+  bird.vy += .35;
+  bird.y += bird.vy;
+
+  bird.rotation =
+    Math.max(
+      -.45,
+      Math.min(
+        .8,
+        bird.vy / 10
+      )
+    );
+
+  bird.wing += .35;
+
+  /* Новые трубы */
+  if(
+    flappyPipes[
+      flappyPipes.length-1
+    ].x < 220
+  ){
+
+    const gap =
+      100 + Math.random()*220;
+
+    flappyPipes.push({
+      x:360,
+      gap:gap,
+      passed:false
+    });
+
+    /* Иногда появляется монета */
+    if(Math.random() < .8){
+      flappyCoin = {
+        x:420,
+        y:gap,
+        r:10,
+        collected:false,
+        spin:0
+      };
+    }
+  }
+
+  /* Движение труб */
+  flappyPipes.forEach(
+    p => p.x -= 2.5
+  );
+
+  if(
+    flappyPipes[0].x < -60
+  ){
+    flappyPipes.shift();
+  }
+
+  /* Счёт за трубы */
+  for(const p of flappyPipes){
+
+    if(
+      !p.passed &&
+      p.x + 50 < bird.x
+    ){
+
+      p.passed = true;
+      flappyScore++;
+
+      document.getElementById(
+        'flappyScore'
+      ).textContent = flappyScore;
+    }
+
+    /* Столкновение с трубой */
+    if(
+      bird.x+13 > p.x &&
+      bird.x-13 < p.x+50 &&
+      (
+        bird.y-13 < p.gap-65 ||
+        bird.y+13 > p.gap+65
+      )
+    ){
+
+      flappyOver = true;
+    }
+  }
+
+  /* Движение монеты */
+  if(flappyCoin){
+
+    flappyCoin.x -= 2.5;
+    flappyCoin.spin += .15;
+
+    const dx =
+      bird.x - flappyCoin.x;
+
+    const dy =
+      bird.y - flappyCoin.y;
+
+    const distance =
+      Math.sqrt(dx*dx + dy*dy);
+
+    /* Собрали монету */
+    if(
+      distance < 30
+    ){
+
+      flappyCoinsBank++;
+
+      flappyCoin.collected = true;
+
+      flappyCoin = null;
+
+      saveFlappyData();
+      updateFlappyCoins();
+    }
+
+    if(
+      flappyCoin &&
+      flappyCoin.x < -40
+    ){
+      flappyCoin = null;
+    }
+  }
+
+  /* Верх / низ */
+  if(
+    bird.y < 0 ||
+    bird.y > 420
+  ){
+    flappyOver = true;
+  }
+
+  drawFlappy();
+
+  if(flappyOver){
+
+    flappyCtx.fillStyle =
+      'rgba(0,0,0,.55)';
+
+    flappyCtx.fillRect(
+      0,0,360,420
+    );
+
+    flappyCtx.fillStyle =
+      '#fff';
+
+    flappyCtx.font =
+      'bold 28px Arial';
+
+    flappyCtx.textAlign =
+      'center';
+
+    flappyCtx.fillText(
+      'Игра окончена',
+      180,
+      190
+    );
+
+    flappyCtx.font =
+      '18px Arial';
+
+    flappyCtx.fillText(
+      '🪙 Монеты сохраняются!',
+      180,
+      225
+    );
+
+    clearInterval(flappyTimer);
+  }
+}
+
+/* ========================================================
+   РИСУЕМ ПТИЦУ
+   ======================================================== */
+
+function drawBird(){
+
+  const skin =
+    flappySkins[flappySkin];
+
+  flappyCtx.save();
+
+  flappyCtx.translate(
+    bird.x,
+    bird.y
+  );
+
+  flappyCtx.rotate(
+    bird.rotation
+  );
+
+  /* Тень */
+  flappyCtx.shadowColor =
+    'rgba(0,0,0,.25)';
+
+  flappyCtx.shadowBlur = 8;
+
+  /* Тело */
+  flappyCtx.fillStyle =
+    skin.body;
+
+  flappyCtx.beginPath();
+
+  flappyCtx.ellipse(
+    0,
+    0,
+    18,
+    14,
+    0,
+    0,
+    Math.PI*2
+  );
+
+  flappyCtx.fill();
+
+  /* Крыло */
+  flappyCtx.shadowBlur = 0;
+
+  flappyCtx.fillStyle =
+    skin.wing;
+
+  const wingY =
+    Math.sin(
+      bird.wing
+    ) * 4;
+
+  flappyCtx.beginPath();
+
+  flappyCtx.ellipse(
+    -5,
+    6 + wingY,
+    11,
+    6,
+    -.25,
+    0,
+    Math.PI*2
+  );
+
+  flappyCtx.fill();
+
+  /* Клюв */
+  flappyCtx.fillStyle =
+    skin.beak;
+
+  flappyCtx.beginPath();
+
+  flappyCtx.moveTo(15,-2);
+  flappyCtx.lineTo(28,3);
+  flappyCtx.lineTo(15,7);
+  flappyCtx.closePath();
+
+  flappyCtx.fill();
+
+  /* Белок глаза */
+  flappyCtx.fillStyle =
+    '#fff';
+
+  flappyCtx.beginPath();
+
+  flappyCtx.arc(
+    8,
+    -7,
+    5,
+    0,
+    Math.PI*2
+  );
+
+  flappyCtx.fill();
+
+  /* Зрачок */
+  flappyCtx.fillStyle =
+    '#111827';
+
+  flappyCtx.beginPath();
+
+  flappyCtx.arc(
+    9,
+    -7,
+    2,
+    0,
+    Math.PI*2
+  );
+
+  flappyCtx.fill();
+
+  /* Золотой скин светится */
+  if(flappySkin === 'gold'){
+
+    flappyCtx.strokeStyle =
+      '#fff7a8';
+
+    flappyCtx.lineWidth = 2;
+
+    flappyCtx.beginPath();
+
+    flappyCtx.arc(
+      0,
+      0,
+      21,
+      0,
+      Math.PI*2
+    );
+
+    flappyCtx.stroke();
+  }
+
+  flappyCtx.restore();
+}
+
+/* ========================================================
+   РИСУЕМ МОНЕТУ
+   ======================================================== */
+
+function updateCollectedCoin(){
+
+  if(!collectedCoin) return;
+
+  collectedCoin.life++;
+
+  if(
+    collectedCoin.life >=
+    collectedCoin.maxLife
+  ){
+    collectedCoin = null;
+  }
+}
+
+/* Эффект +1 после сбора */
+function drawCollectedCoin(){
+
+  if(!collectedCoin) return;
+
+  const c = collectedCoin;
+
+  const progress =
+    c.life / c.maxLife;
+
+  const scale =
+    1 + progress * 1.8;
+
+  const alpha =
+    1 - progress;
+
+  flappyCtx.save();
+
+  flappyCtx.translate(
+    c.x,
+    c.y - progress * 35
+  );
+
+  flappyCtx.scale(
+    scale,
+    scale
+  );
+
+  flappyCtx.globalAlpha =
+    alpha;
+
+  flappyCtx.fillStyle =
+    '#fff7a8';
+
+  flappyCtx.font =
+    'bold 18px Arial';
+
+  flappyCtx.textAlign =
+    'center';
+
+  flappyCtx.fillText(
+    '✨ +1 🪙',
+    0,
+    0
+  );
+
+  flappyCtx.restore();
+}
+
+function drawCoin(){
+
+  if(!flappyCoin) return;
+
+  const c =
+    flappyCoin;
+
+  flappyCtx.save();
+
+  flappyCtx.translate(
+    c.x,
+    c.y
+  );
+
+  const width =
+    Math.abs(
+      Math.cos(c.spin)
+    ) * 9 + 3;
+
+  /* Свечение */
+  flappyCtx.shadowColor =
+    '#facc15';
+
+  flappyCtx.shadowBlur =
+    15;
+
+  flappyCtx.fillStyle =
+    '#facc15';
+
+  flappyCtx.beginPath();
+
+  flappyCtx.ellipse(
+    0,
+    0,
+    width,
+    11,
+    0,
+    0,
+    Math.PI*2
+  );
+
+  flappyCtx.fill();
+
+  flappyCtx.shadowBlur = 0;
+
+  flappyCtx.fillStyle =
+    '#fff7a8';
+
+  flappyCtx.font =
+    'bold 12px Arial';
+
+  flappyCtx.textAlign =
+    'center';
+
+  flappyCtx.textBaseline =
+    'middle';
+
+  flappyCtx.fillText(
+    '$',
+    0,
+    1
+  );
+
+  flappyCtx.restore();
+}
+
+/* ========================================================
+   РИСУЕМ ИГРУ
+   ======================================================== */
+
+function drawFlappy(){
+
+  /* Небо */
+  const gradient =
+    flappyCtx.createLinearGradient(
+      0,0,0,420
+    );
+
+  gradient.addColorStop(
+    0,
+    '#38bdf8'
+  );
+
+  gradient.addColorStop(
+    1,
+    '#0ea5e9'
+  );
+
+  flappyCtx.fillStyle =
+    gradient;
+
+  flappyCtx.fillRect(
+    0,0,360,420
+  );
+
+  /* Облака */
+  flappyCtx.fillStyle =
+    'rgba(255,255,255,.25)';
+
+  for(let i=0;i<4;i++){
+
+    const x =
+      ((flappyFrame*.35)+(i*120))%430-60;
+
+    const y =
+      55+i*75;
+
+    flappyCtx.beginPath();
+
+    flappyCtx.arc(
+      x,
+      y,
+      18,
+      0,
+      Math.PI*2
+    );
+
+    flappyCtx.arc(
+      x+20,
+      y-8,
+      23,
+      0,
+      Math.PI*2
+    );
+
+    flappyCtx.arc(
+      x+45,
+      y,
+      17,
+      0,
+      Math.PI*2
+    );
+
+    flappyCtx.fill();
+  }
+
+  /* Трубы */
+  flappyCtx.fillStyle =
+    '#22c55e';
+
+  flappyPipes.forEach(p=>{
+
+    flappyCtx.fillRect(
+      p.x,
+      0,
+      50,
+      p.gap-65
+    );
+
+    flappyCtx.fillRect(
+      p.x,
+      p.gap+65,
+      50,
+      420
+    );
+
+    /* Крышки труб */
+    flappyCtx.fillStyle =
+      '#16a34a';
+
+    flappyCtx.fillRect(
+      p.x-4,
+      p.gap-75,
+      58,
+      12
+    );
+
+    flappyCtx.fillRect(
+      p.x-4,
+      p.gap+63,
+      58,
+      12
+    );
+
+    flappyCtx.fillStyle =
+      '#22c55e';
+  });
+
+  updateCollectedCoin();
+  drawCoin();
+  drawCollectedCoin();
+  drawBird();
+}
+
+
+/* 2048 */
+let grid2048 = [];
+let score2048 = 0;
+let best2048 = Number(localStorage.getItem('best2048') || 0);
+let newTile2048 = -1;
+let merged2048 = new Set();
+let audio2048 = null;
+
+function get2048Audio(){
+  if(!audio2048){
+    audio2048 = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if(audio2048.state === 'suspended') audio2048.resume();
+  return audio2048;
+}
+
+/* Лёгкий звук движения — как тихий стук посуды */
+function sound2048Move(){
+  try{
+    const ctx = get2048Audio();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(180,ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(120,ctx.currentTime+.055);
+
+    gain.gain.setValueAtTime(.035,ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.06);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime+.065);
+  }catch(e){}
+}
+
+/* Приятный звон при объединении плиток */
+function sound2048Merge(value){
+  try{
+    const ctx = get2048Audio();
+    const now = ctx.currentTime;
+
+    const base = Math.min(1050, 480 + Math.log2(value)*42);
+
+    [1,1.5,2].forEach((mult,i)=>{
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = i===0 ? 'sine' : 'triangle';
+      osc.frequency.setValueAtTime(base*mult,now);
+
+      gain.gain.setValueAtTime(i===0 ? .07 : .025,now);
+      gain.gain.exponentialRampToValueAtTime(.001,now+.45);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now+i*.015);
+      osc.stop(now+.48);
+    });
+  }catch(e){}
+}
+
+function init2048(){
+  grid2048 = Array(16).fill(0);
+  score2048 = 0;
+  merged2048.clear();
+
+  add2048();
+  add2048();
+
+  document.getElementById('best2048').textContent = best2048;
+  render2048();
+}
+
+function add2048(){
+  const free = grid2048
+    .map((v,i)=>v ? null : i)
+    .filter(v=>v!==null);
+
+  if(!free.length) return;
+
+  const index = free[Math.floor(Math.random()*free.length)];
+  grid2048[index] = Math.random() < .9 ? 2 : 4;
+  newTile2048 = index;
+}
+
+function show2048Points(points){
+  if(!points) return;
+
+  const popup = document.getElementById('score2048Popup');
+  popup.textContent = '+' + points;
+  popup.className = '';
+
+  void popup.offsetWidth;
+  popup.className = 'score-fly';
+
+  const scoreEl = document.getElementById('score2048');
+  scoreEl.classList.remove('score-pop');
+  void scoreEl.offsetWidth;
+  scoreEl.classList.add('score-pop');
+}
+
+function move2048(dir){
+  const old = grid2048.join(',');
+  const scoreBefore = score2048;
+  merged2048.clear();
+
+  function processLine(values){
+    let compact = values.filter(Boolean);
+    const result = [];
+    let added = 0;
+
+    for(let i=0;i<compact.length;i++){
+      if(i+1<compact.length && compact[i]===compact[i+1]){
+        const value = compact[i]*2;
+        result.push(value);
+        added += value;
+        score2048 += value;
+        sound2048Merge(value);
+        i++;
+      }else{
+        result.push(compact[i]);
+      }
+    }
+
+    while(result.length<4) result.push(0);
+    return {values:result,added};
+  }
+
+  for(let n=0;n<4;n++){
+    let indices;
+
+    if(dir==='left')
+      indices=[n*4,n*4+1,n*4+2,n*4+3];
+
+    if(dir==='right')
+      indices=[n*4+3,n*4+2,n*4+1,n*4];
+
+    if(dir==='up')
+      indices=[n,n+4,n+8,n+12];
+
+    if(dir==='down')
+      indices=[n+12,n+8,n+4,n];
+
+    const before = indices.map(i=>grid2048[i]);
+    const result = processLine(before).values;
+
+    indices.forEach((index,j)=>{
+      grid2048[index]=result[j];
+    });
+  }
+
+  const changed = old !== grid2048.join(',');
+
+  if(changed){
+    sound2048Move();
+
+    /* Находим новые объединённые значения приблизительно
+       для красивой анимации */
+    grid2048.forEach((v,i)=>{
+      if(v>=4) merged2048.add(i);
+    });
+
+    add2048();
+
+    if(score2048 > best2048){
+      best2048 = score2048;
+      localStorage.setItem('best2048', best2048);
+    }
+  }
+
+  render2048();
+
+  if(score2048 > scoreBefore){
+    show2048Points(score2048-scoreBefore);
+  }
+}
+
+function render2048(){
+  const g = document.getElementById('grid2048');
+  g.innerHTML = '';
+
+  grid2048.forEach((v,i)=>{
+    const d = document.createElement('div');
+    d.className = 'tile2048';
+    d.dataset.value = v;
+
+    if(i === newTile2048 && v){
+      d.classList.add('new-tile');
+    }else if(merged2048.has(i) && v>=4){
+      d.classList.add('merge-tile');
+    }
+
+    if(v > 2048) d.classList.add('big-tile');
+
+    d.textContent = v || '';
+    g.appendChild(d);
+  });
+
+  document.getElementById('score2048').textContent = score2048;
+  document.getElementById('best2048').textContent = best2048;
+
+  newTile2048 = -1;
+  merged2048.clear();
+}
+
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('g2048Menu').style.display!=='flex') return;
+
+  const dir = {
+    ArrowLeft:'left',
+    ArrowRight:'right',
+    ArrowUp:'up',
+    ArrowDown:'down'
+  }[e.key];
+
+  if(dir){
+    e.preventDefault();
+    move2048(dir);
+  }
+});
+
 
 /* САПЁР */
 let mines,opened;
@@ -520,6 +3791,270 @@ function closeAnnaReader() {
   document.body.style.overflow = "";
 }
 </script>
+
+
+
+<!-- ИНТЕРАКТИВНАЯ ФАЛЬШИВАЯ ГЕОЛОКАЦИЯ -->
+<div id="fakeLocation" style="
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.65);
+z-index:99999;
+display:none;
+align-items:center;
+justify-content:center;
+padding:15px;
+">
+
+  <div style="
+  width:min(1100px,96vw);
+  height:min(750px,94vh);
+  background:white;
+  border-radius:18px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 20px 70px rgba(0,0,0,.5);
+  ">
+
+    <div style="
+    position:absolute;
+    top:10px;
+    left:10px;
+    right:10px;
+    z-index:1000;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    pointer-events:none;
+    ">
+
+      <div style="
+      background:white;
+      padding:11px 16px;
+      border-radius:12px;
+      box-shadow:0 2px 12px rgba(0,0,0,.25);
+      font-size:16px;
+      pointer-events:auto;
+      ">
+        📍 <b>Ян сейчас здесь</b>
+        <div id="fakeStatus" style="font-size:12px;color:#666;margin-top:3px">
+          Движение...
+        </div>
+      </div>
+
+      <button onclick="closeFakeLocation()" style="
+      background:white;
+      border:0;
+      border-radius:12px;
+      width:42px;
+      height:42px;
+      font-size:21px;
+      cursor:pointer;
+      box-shadow:0 2px 12px rgba(0,0,0,.25);
+      pointer-events:auto;
+      ">✕</button>
+
+    </div>
+
+    <div id="realMap" style="
+    width:100%;
+    height:100%;
+    "></div>
+
+  </div>
+</div>
+
+<script>
+let fakeMap = null;
+let fakeMarker = null;
+let fakeTimer = null;
+
+// Вымышленная стартовая точка.
+// Настоящая геолокация пользователя НИКОГДА не запрашивается.
+let fakeLat = 44.95;
+let fakeLng = 34.10;
+
+function openFakeLocation() {
+    document.getElementById("fakeLocation").style.display = "flex";
+
+    setTimeout(() => {
+        if (!fakeMap) {
+
+            fakeMap = L.map("realMap", {
+                zoomControl: true,
+                worldCopyJump: true
+            }).setView([fakeLat, fakeLng], 12);
+
+            // Настоящая карта Земли
+            L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+                    maxZoom: 19,
+                    attribution:
+                    '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'
+                }
+            ).addTo(fakeMap);
+
+            // Кастомная иконка
+            const personIcon = L.divIcon({
+                className: "",
+                html: `
+                  <div style="
+                  width:42px;
+                  height:42px;
+                  border-radius:50%;
+                  background:#1976ff;
+                  border:4px solid white;
+                  box-shadow:0 3px 15px rgba(0,0,0,.4);
+                  display:flex;
+                  align-items:center;
+                  justify-content:center;
+                  font-size:23px;
+                  ">🚶</div>
+                `,
+                iconSize: [42,42],
+                iconAnchor: [21,21]
+            });
+
+            fakeMarker = L.marker(
+                [fakeLat, fakeLng],
+                {icon: personIcon}
+            ).addTo(fakeMap);
+
+            fakeMarker.bindPopup(
+                "<b>🚶 Ян</b><br>Сейчас в пути"
+            );
+
+            // Запускаем движение
+            fakeTimer = setInterval(moveFakePerson, 3000);
+
+            setTimeout(() => {
+                fakeMap.invalidateSize();
+            }, 200);
+        }
+    }, 100);
+}
+
+function closeFakeLocation() {
+    document.getElementById("fakeLocation").style.display = "none";
+}
+
+function moveFakePerson() {
+
+    // Небольшое случайное движение,
+    // будто человек идёт по городу.
+    const direction = Math.random() * Math.PI * 2;
+
+    const distance = 0.001 + Math.random() * 0.002;
+
+    fakeLat += Math.sin(direction) * distance;
+    fakeLng += Math.cos(direction) * distance;
+
+    fakeMarker.setLatLng([fakeLat, fakeLng]);
+
+    document.getElementById("fakeStatus").textContent =
+        "🟢 В движении • точка обновлена";
+
+    // Карта НЕ центрируется автоматически.
+    // Пользователь может свободно двигать карту и смотреть другие места.
+}
+
+// Если пользователь закрыл страницу — останавливаем таймер
+window.addEventListener("beforeunload", () => {
+    if (fakeTimer) clearInterval(fakeTimer);
+});
+</script>
+
+<script id="handwriting-script">
+
+const handwritingWords = [
+  "Привет",
+  "Hello",
+  "Bonjour",
+  "Hola",
+  "Ciao",
+  "Hallo",
+  "Olá",
+  "Привіт",
+  "Hei",
+  "Salut"
+];
+
+let handwritingIndex = 0;
+
+function writeNextGreeting() {
+  const text = document.getElementById("handwritingText");
+  const cursor = document.querySelector(".writing-cursor");
+
+  if (!text) return;
+
+  // Стираем предыдущую надпись
+  text.classList.remove("erase");
+
+  void text.offsetWidth;
+
+  text.classList.add("erase");
+
+  setTimeout(() => {
+
+    handwritingIndex =
+      (handwritingIndex + 1) % handwritingWords.length;
+
+    text.textContent =
+      handwritingWords[handwritingIndex];
+
+    // Запускаем написание заново
+    text.classList.remove("erase");
+
+    void text.offsetWidth;
+
+    text.style.animation = "none";
+
+    void text.offsetWidth;
+
+    text.style.animation =
+      "handwritingWrite 2.2s cubic-bezier(.12,.75,.25,1) forwards";
+
+  }, 1000);
+}
+
+// Первая надпись уже начинается при загрузке
+setTimeout(() => {
+  setInterval(writeNextGreeting, 5000);
+}, 2500);
+
+</script>
+
+
+<div class="overlay" id="terrariaMenu">
+  <div class="box terraria-box">
+
+    <div class="game-title">
+      <h2>🌳 Terraria</h2>
+      <button class="x" onclick="closeGame('terrariaMenu')">×</button>
+    </div>
+
+    <div class="terraria-info">
+      <span>❤️ Жизни: <b id="terrariaHealth">5</b></span>
+      <span>🪙 Дерево: <b id="terrariaWood">0</b></span>
+      <span>⛏️ Камень: <b id="terrariaStone">0</b></span>
+    </div>
+
+    <canvas id="terrariaCanvas"
+            width="760"
+            height="430"></canvas>
+
+    <p class="terraria-help">
+      A/D или ←/→ — движение · W/↑/Пробел — прыжок ·
+      ЛКМ — добывать блоки
+    </p>
+
+    <button class="restart" onclick="initTerraria()">
+      Начать заново
+    </button>
+
+  </div>
+</div>
 
 </body>
 </html>
