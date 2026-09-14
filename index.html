@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MySite — Игры</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:linear-gradient(135deg,#0f172a,#312e81,#581c87);color:#fff;min-height:100vh}
+header{display:flex;justify-content:space-between;align-items:center;padding:25px 8%}
+.logo{font-size:26px;font-weight:bold} nav a{color:#fff;text-decoration:none;margin-left:25px;opacity:.85}nav a:hover{opacity:1}
+.hero{min-height:68vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:40px 20px}.hero h1{font-size:clamp(50px,8vw,90px);margin-bottom:20px;background:linear-gradient(90deg,#fff,#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero p{font-size:22px;max-width:600px;line-height:1.6;color:#ddd6fe;margin-bottom:35px}.button{display:inline-block;padding:16px 35px;border-radius:50px;background:#fff;color:#312e81;text-decoration:none;font-size:18px;font-weight:bold;transition:.3s}.button:hover{transform:translateY(-5px);box-shadow:0 15px 30px #0005}
+.cards{display:flex;justify-content:center;gap:25px;padding:50px 8%;flex-wrap:wrap}.card{width:280px;padding:30px;border-radius:20px;background:#ffffff1a;backdrop-filter:blur(10px);border:1px solid #ffffff26;text-align:center;transition:.3s;cursor:pointer}.card:hover{transform:translateY(-8px);background:#ffffff2e}.card h2{margin-bottom:15px}.card p{color:#ddd6fe;line-height:1.5}footer{text-align:center;padding:30px;color:#c4b5fd}
+.overlay{display:none;position:fixed;inset:0;background:#000b;justify-content:center;align-items:center;z-index:100;padding:20px}.box{background:linear-gradient(135deg,#1e1b4b,#312e81);padding:30px;border-radius:25px;text-align:center;width:min(94vw,600px);max-height:94vh;overflow:auto;box-shadow:0 20px 60px #0008}.box h2{font-size:30px;margin-bottom:22px}.game-btn{display:block;width:100%;padding:18px;margin:12px 0;border:0;border-radius:15px;font-size:21px;font-weight:bold;cursor:pointer;transition:.2s}.game-btn:hover{transform:scale(1.02)}.snake-btn{background:#22c55e;color:#fff}.tetris-btn{background:#a855f7;color:#fff}.close{padding:10px 24px;border:1px solid #fff;background:transparent;color:#fff;border-radius:20px;cursor:pointer;margin-top:8px}
+#gameCanvas{background:#111827;border:3px solid #a78bfa;border-radius:10px;display:block;margin:0 auto;max-width:100%;height:auto}.score{font-size:20px;margin:10px}.controls{margin:15px auto 5px;display:grid;grid-template-columns:repeat(3,60px);gap:6px;justify-content:center}.controls button{height:52px;border:0;border-radius:12px;background:#ffffff20;color:#fff;font-size:24px;cursor:pointer}.controls .empty{visibility:hidden}
+.tetris-wrap{display:flex;gap:20px;justify-content:center;align-items:flex-start}.tetris-side{text-align:left;min-width:130px}.tetris-side p{margin:10px 0;color:#ddd6fe}.next{background:#111827;border:2px solid #a78bfa;border-radius:8px;padding:8px}.restart{padding:10px 20px;border:0;border-radius:12px;background:#fff;color:#312e81;font-weight:bold;cursor:pointer;margin:10px}.game-title{display:flex;justify-content:space-between;align-items:center;gap:10px}.x{background:none;border:0;color:#fff;font-size:28px;cursor:pointer}
+@media(max-width:600px){header{padding:20px 5%}nav a{margin-left:10px}.hero h1{font-size:52px}.hero p{font-size:18px}.tetris-wrap{gap:10px}.tetris-side{min-width:100px;font-size:14px}}
+</style>
+<style>
+.profile-section,.contact-section{max-width:1100px;margin:45px auto 0;padding:0 20px}
+.profile-card,.contact-card{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:24px;padding:30px;box-shadow:0 15px 45px rgba(0,0,0,.18);backdrop-filter:blur(12px)}
+.profile-card{display:flex;align-items:center;gap:25px}
+.avatar{width:90px;height:90px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:42px;font-weight:800;background:linear-gradient(135deg,#7c3aed,#06b6d4);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.profile-card h2,.contact-card h2{margin-top:0}.profile-card h3{font-size:25px;margin:8px 0}.profile-card p,.contact-card p{line-height:1.6}
+.telegram-button{display:inline-block;margin-top:10px;padding:13px 20px;border-radius:14px;text-decoration:none;font-weight:700;background:#229ed9;color:white;transition:transform .2s,opacity .2s}
+.telegram-button:hover{transform:translateY(-2px);opacity:.9}
+@media(max-width:600px){.profile-card{flex-direction:column;text-align:center}.avatar{width:75px;height:75px;font-size:34px}}
+</style></head>
+<body>
+<header><div class="logo">🚀 MySite</div><nav><a href="#">Главная</a><a href="#about">Обо мне</a><a href="#games">Игры</a><a href="#contact">Контакты</a></nav></header>
+<main>
+<section class="hero"><h1>Привет! 👋</h1><p>Добро пожаловать на мою первую веб-страницу. Здесь я учусь создавать сайты и программировать.</p><a class="button" href="#games">Играть 🎮</a></section>
+<section class="cards" id="about">
+<div class="card"><h2>💻 Программирование</h2><p>Изучаю Python, HTML, CSS и JavaScript.</p></div>
+<div class="card" id="games" onclick="openGames()"><h2>🎮 Игры</h2><p>Нажми сюда и выбери Змейку или Тетрис.</p></div>
+<div class="card"><h2>🌟 Мой сайт</h2><p>Здесь я показываю свои проекты.</p></div>
+</section>
+<section class="profile-section">
+<div class="profile-card">
+<div class="avatar">Я</div>
+<div><h2>👤 Обо мне</h2><h3>Ян, 15 лет</h3><p>📍 Симферополь</p><p>Учусь программировать, люблю игры и создаю сайты.</p></div>
+</div>
+</section>
+<section class="contact-section" id="contact">
+<div class="contact-card"><h2>📱 Мои контакты</h2><p>Если хочешь связаться со мной:</p>
+<a class="telegram-button" href="https://t.me/Ianchik121" target="_blank" rel="noopener noreferrer">✈️ Telegram: @Ianchik121</a></div>
+</section>
+</main><footer>© 2026 Моя первая страница</footer>
+
+<div class="overlay" id="gamesMenu"><div class="box"><h2>🎮 Выбери игру</h2><button class="game-btn snake-btn" onclick="startSnake()">🐍 Змейка</button><button class="game-btn tetris-btn" onclick="startTetris()">🧱 Тетрис</button>
+<button class="game-btn" onclick="startPong()">🏓 Пинг-понг</button>
+<button class="game-btn" onclick="startFlappy()">🐦 Flappy</button>
+<button class="game-btn" onclick="start2048()">🔢 2048</button>
+<button class="game-btn" onclick="startMines()">💣 Сапёр</button>
+<button class="game-btn" onclick="startReaction()">⚡ Реакция</button><button class="close" onclick="closeOverlay('gamesMenu')">Закрыть</button></div></div>
+
+<div class="overlay" id="snakeMenu"><div class="box"><div class="game-title"><h2>🐍 Змейка</h2><button class="x" onclick="closeSnake()">×</button></div><div class="score">Счёт: <b id="snakeScore">0</b></div><canvas id="snakeCanvas" width="360" height="360"></canvas><div class="controls"><span class="empty"></span><button onclick="snakeDir(0,-1)">⬆️</button><span class="empty"></span><button onclick="snakeDir(-1,0)">⬅️</button><button onclick="snakeDir(0,1)">⬇️</button><button onclick="snakeDir(1,0)">➡️</button></div><button class="restart" onclick="initSnake()">Начать заново</button><p id="snakeHint">Управление: стрелки на клавиатуре</p></div></div>
+
+<div class="overlay" id="tetrisMenu"><div class="box"><div class="game-title"><h2>🧱 Тетрис</h2><button class="x" onclick="closeTetris()">×</button></div><div class="tetris-wrap"><div><canvas id="tetrisCanvas" width="240" height="480"></canvas><div class="controls"><span class="empty"></span><button onclick="tMove(0,-1)">⬆️</button><span class="empty"></span><button onclick="tMove(-1,0)">⬅️</button><button onclick="tMove(0,1)">⬇️</button><button onclick="tMove(1,0)">➡️</button></div></div><div class="tetris-side"><p>Счёт: <b id="tetrisScore">0</b></p><p>Линии: <b id="tetrisLines">0</b></p><p>Уровень: <b id="tetrisLevel">1</b></p><p>Следующая:</p><canvas class="next" id="nextCanvas" width="120" height="100"></canvas><p>↑ — повернуть<br>← → — движение<br>↓ — вниз<br>Пробел — бросок</p></div></div><button class="restart" onclick="initTetris()">Начать заново</button></div></div>
+
+<script>
+function openGames(){document.getElementById('gamesMenu').style.display='flex'}
+function closeOverlay(id){document.getElementById(id).style.display='none'}
+
+// SNAKE
+const sc=document.getElementById('snakeCanvas'),sx=sc.getContext('2d'),cell=20,gridN=18;let snake,food,sd,queued,ss,st;
+function initSnake(){clearInterval(st);snake=[{x:9,y:9},{x:8,y:9},{x:7,y:9}];food=randFood();sd={x:1,y:0};queued=sd;ss=0;document.getElementById('snakeScore').textContent=ss;document.getElementById('snakeHint').textContent='Управление: стрелки на клавиатуре';drawSnake();st=setInterval(stepSnake,120)}
+function randFood(){let f;do{f={x:Math.floor(Math.random()*gridN),y:Math.floor(Math.random()*gridN)}}while(snake&&snake.some(p=>p.x===f.x&&p.y===f.y));return f}
+function snakeDir(x,y){if(x!==-sd.x||y!==-sd.y)queued={x,y}}
+function stepSnake(){sd=queued;let h={x:snake[0].x+sd.x,y:snake[0].y+sd.y};if(h.x<0||h.x>=gridN||h.y<0||h.y>=gridN||snake.some(p=>p.x===h.x&&p.y===h.y)){clearInterval(st);document.getElementById('snakeHint').textContent='💥 Игра окончена! Нажми «Начать заново»';drawSnake();return}snake.unshift(h);if(h.x===food.x&&h.y===food.y){ss+=10;document.getElementById('snakeScore').textContent=ss;food=randFood()}else snake.pop();drawSnake()}
+function drawSnake(){sx.fillStyle='#0b1220';sx.fillRect(0,0,sc.width,sc.height);sx.strokeStyle='#1f2937';for(let i=0;i<=gridN;i++){sx.beginPath();sx.moveTo(i*cell,0);sx.lineTo(i*cell,sc.height);sx.stroke();sx.beginPath();sx.moveTo(0,i*cell);sx.lineTo(sc.width,i*cell);sx.stroke()}sx.fillStyle='#ef4444';sx.beginPath();sx.arc(food.x*cell+10,food.y*cell+10,8,0,Math.PI*2);sx.fill();snake.forEach((p,i)=>{sx.fillStyle=i===0?'#86efac':'#22c55e';sx.fillRect(p.x*cell+2,p.y*cell+2,16,16)})}
+function startSnake(){closeOverlay('gamesMenu');document.getElementById('snakeMenu').style.display='flex';initSnake()}
+function closeSnake(){clearInterval(st);closeOverlay('snakeMenu')}
+document.addEventListener('keydown',e=>{if(document.getElementById('snakeMenu').style.display==='flex'){if(e.key==='ArrowUp')snakeDir(0,-1);if(e.key==='ArrowDown')snakeDir(0,1);if(e.key==='ArrowLeft')snakeDir(-1,0);if(e.key==='ArrowRight')snakeDir(1,0)}});
+
+// TETRIS
+const tc=document.getElementById('tetrisCanvas'),tx=tc.getContext('2d'),nc=document.getElementById('nextCanvas'),nx=nc.getContext('2d');const TW=10,TH=20,TS=24;let board,piece,nextPiece,tScore,tLines,tLevel,tTimer,tOver;const shapes=[[[1,1,1,1]],[[1,1],[1,1]],[[0,1,0],[1,1,1]],[[0,1,1],[1,1,0]],[[1,1,0],[0,1,1]],[[1,0,0],[1,1,1]],[[0,0,1],[1,1,1]]];const cols=['#22d3ee','#facc15','#c084fc','#4ade80','#f87171','#60a5fa','#fb923c'];
+function clone(a){return a.map(r=>r.slice())}function randPiece(){let i=Math.floor(Math.random()*shapes.length);return {shape:clone(shapes[i]),color:cols[i],x:3,y:0}}
+function initTetris(){clearInterval(tTimer);board=Array.from({length:TH},()=>Array(TW).fill(0));piece=randPiece();nextPiece=randPiece();tScore=0;tLines=0;tLevel=1;tOver=false;updateTInfo();drawTetris();tTimer=setInterval(tDrop,650)}
+function valid(p,dx=0,dy=0,s=p.shape){for(let y=0;y<s.length;y++)for(let x=0;x<s[y].length;x++)if(s[y][x]){let nxp=p.x+x+dx,nyp=p.y+y+dy;if(nxp<0||nxp>=TW||nyp>=TH||(nyp>=0&&board[nyp][nxp]))return false}return true}
+function merge(){piece.shape.forEach((r,y)=>r.forEach((v,x)=>{if(v&&piece.y+y>=0)board[piece.y+y][piece.x+x]=piece.color}))}
+function clearRows(){let n=0;for(let y=TH-1;y>=0;y--)if(board[y].every(Boolean)){board.splice(y,1);board.unshift(Array(TW).fill(0));n++;y++}if(n){tLines+=n;tScore += [0,100,300,500,800][n]*tLevel;tLevel=1+Math.floor(tLines/10);clearInterval(tTimer);tTimer=setInterval(tDrop,Math.max(90,650-(tLevel-1)*50));updateTInfo()}}
+function spawn(){piece=nextPiece;piece.x=3;piece.y=0;nextPiece=randPiece();drawNext();if(!valid(piece)){tOver=true;clearInterval(tTimer)}}
+function tDrop(){if(!valid(piece,0,1)){merge();clearRows();spawn()}else piece.y++;drawTetris()}
+function rotate(s){return s[0].map((_,i)=>s.map(r=>r[i]).reverse())}
+function tRotate(){let r=rotate(piece.shape);if(valid(piece,0,0,r))piece.shape=r;else if(valid(piece,-1,0,r)){piece.x--;piece.shape=r}else if(valid(piece,1,0,r)){piece.x++;piece.shape=r}drawTetris()}
+function tMove(dx,dy){if(dy===-1){tRotate();return}if(dy===1){tDrop();return}if(valid(piece,dx,0))piece.x+=dx;drawTetris()}
+function hardDrop(){while(valid(piece,0,1))piece.y++;tDrop()}
+function drawCell(ctx,x,y,color,size){ctx.fillStyle=color;ctx.fillRect(x*size+1,y*size+1,size-2,size-2)}
+function drawTetris(){tx.fillStyle='#0b1220';tx.fillRect(0,0,tc.width,tc.height);for(let y=0;y<TH;y++)for(let x=0;x<TW;x++)if(board[y][x])drawCell(tx,x,y,board[y][x],TS);if(piece&&!tOver)piece.shape.forEach((r,y)=>r.forEach((v,x)=>{if(v)drawCell(tx,piece.x+x,piece.y+y,piece.color,TS)}));if(tOver){tx.fillStyle='#000b';tx.fillRect(0,0,tc.width,tc.height);tx.fillStyle='#fff';tx.font='bold 26px Arial';tx.textAlign='center';tx.fillText('GAME OVER',tc.width/2,tc.height/2);tx.font='16px Arial';tx.fillText('Нажми «Начать заново»',tc.width/2,tc.height/2+30)}}
+function drawNext(){nx.fillStyle='#111827';nx.fillRect(0,0,nc.width,nc.height);let s=nextPiece.shape,size=22,ox=(5-s[0].length)/2,oy=(4-s.length)/2;s.forEach((r,y)=>r.forEach((v,x)=>{if(v)drawCell(nx,ox+x,oy+y,nextPiece.color,size)}))}
+function updateTInfo(){document.getElementById('tetrisScore').textContent=tScore;document.getElementById('tetrisLines').textContent=tLines;document.getElementById('tetrisLevel').textContent=tLevel;drawNext()}
+function startTetris(){closeOverlay('gamesMenu');document.getElementById('tetrisMenu').style.display='flex';initTetris()}
+function closeTetris(){clearInterval(tTimer);closeOverlay('tetrisMenu')}
+document.addEventListener('keydown',e=>{if(document.getElementById('tetrisMenu').style.display!=='flex')return;if(e.key==='ArrowLeft')tMove(-1,0);if(e.key==='ArrowRight')tMove(1,0);if(e.key==='ArrowDown')tMove(0,1);if(e.key==='ArrowUp')tRotate();if(e.code==='Space'){e.preventDefault();hardDrop()}});
+</script>
+
+<div class="overlay" id="pongMenu"><div class="box">
+<div class="game-title"><h2>🏓 Пинг-понг</h2><button class="x" onclick="closeGame('pongMenu')">×</button></div>
+<canvas id="pongCanvas" width="480" height="300" style="background:#0b1220;max-width:100%;border-radius:12px"></canvas>
+<p>Счёт: <b id="pongScore">0 : 0</b></p><p>W/S — левая ракетка • ↑/↓ — правая</p>
+<button class="restart" onclick="initPong()">Начать заново</button>
+</div></div>
+
+<div class="overlay" id="flappyMenu"><div class="box">
+<div class="game-title"><h2>🐦 Flappy</h2><button class="x" onclick="closeGame('flappyMenu')">×</button></div>
+<canvas id="flappyCanvas" width="360" height="420" style="background:#38bdf8;max-width:100%;border-radius:12px"></canvas>
+<p>Счёт: <b id="flappyScore">0</b></p><p>Пробел или клик — взмах</p>
+<button class="restart" onclick="initFlappy()">Начать заново</button>
+</div></div>
+
+<div class="overlay" id="g2048Menu"><div class="box">
+<div class="game-title"><h2>🔢 2048</h2><button class="x" onclick="closeGame('g2048Menu')">×</button></div>
+<p>Счёт: <b id="score2048">0</b></p>
+<div id="grid2048" style="display:grid;grid-template-columns:repeat(4,70px);gap:7px;justify-content:center;margin:15px auto"></div>
+<button class="restart" onclick="init2048()">Начать заново</button><p>Стрелки — двигать плитки</p>
+</div></div>
+
+<div class="overlay" id="minesMenu"><div class="box">
+<div class="game-title"><h2>💣 Сапёр</h2><button class="x" onclick="closeGame('minesMenu')">×</button></div>
+<p>Найди все безопасные клетки!</p>
+<div id="minesGrid" style="display:grid;grid-template-columns:repeat(8,35px);gap:3px;justify-content:center;margin:15px auto"></div>
+<button class="restart" onclick="initMines()">Начать заново</button>
+</div></div>
+
+<div class="overlay" id="reactionMenu"><div class="box">
+<div class="game-title"><h2>⚡ Реакция</h2><button class="x" onclick="closeGame('reactionMenu')">×</button></div>
+<div id="reactionBox" style="height:200px;border-radius:18px;background:#334155;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:bold;cursor:pointer">Нажми «Старт»</div>
+<p id="reactionInfo">Проверь свою скорость!</p>
+<button class="restart" onclick="initReaction()">Старт</button>
+</div></div>
+
+<script>
+function closeGame(id){document.getElementById(id).style.display='none'}
+
+function startPong(){closeOverlay('gamesMenu');document.getElementById('pongMenu').style.display='flex';initPong()}
+function startFlappy(){closeOverlay('gamesMenu');document.getElementById('flappyMenu').style.display='flex';initFlappy()}
+function start2048(){closeOverlay('gamesMenu');document.getElementById('g2048Menu').style.display='flex';init2048()}
+function startMines(){closeOverlay('gamesMenu');document.getElementById('minesMenu').style.display='flex';initMines()}
+function startReaction(){closeOverlay('gamesMenu');document.getElementById('reactionMenu').style.display='flex';initReaction()}
+
+/* ПИНГ-ПОНГ */
+let pongTimer,pL,pR,pBall,pScore;
+const pongCanvas=document.getElementById('pongCanvas');
+const pongCtx=pongCanvas.getContext('2d');
+
+function initPong(){
+ clearInterval(pongTimer);
+ pL=120;pR=120;pScore=[0,0];
+ pBall={x:240,y:150,dx:4,dy:3};
+ document.getElementById('pongScore').textContent='0 : 0';
+ pongTimer=setInterval(stepPong,16);
+}
+function stepPong(){
+ pBall.x+=pBall.dx;pBall.y+=pBall.dy;
+ if(pBall.y<8||pBall.y>292)pBall.dy*=-1;
+ if(pBall.x<35&&pBall.y>pL&&pBall.y<pL+60)pBall.dx=Math.abs(pBall.dx);
+ if(pBall.x>445&&pBall.y>pR&&pBall.y<pR+60)pBall.dx=-Math.abs(pBall.dx);
+ pR+=(pBall.y-30-pR)*.04;
+ if(pBall.x<0){pScore[1]++;resetPong(1)}
+ if(pBall.x>480){pScore[0]++;resetPong(-1)}
+ document.getElementById('pongScore').textContent=pScore[0]+' : '+pScore[1];
+ pongCtx.fillStyle='#0b1220';pongCtx.fillRect(0,0,480,300);
+ pongCtx.fillStyle='white';
+ pongCtx.fillRect(18,pL,10,60);pongCtx.fillRect(452,pR,10,60);
+ pongCtx.beginPath();pongCtx.arc(pBall.x,pBall.y,8,0,Math.PI*2);pongCtx.fill();
+}
+function resetPong(d){pBall={x:240,y:150,dx:4*d,dy:Math.random()>.5?3:-3}}
+document.addEventListener('keydown',e=>{
+ if(document.getElementById('pongMenu').style.display!=='flex')return;
+ if(e.key.toLowerCase()==='w')pL-=12;
+ if(e.key.toLowerCase()==='s')pL+=12;
+ if(e.key==='ArrowUp')pR-=12;
+ if(e.key==='ArrowDown')pR+=12;
+});
+
+/* FLAPPY */
+let flappyTimer,bird,flappyPipes,flappyScore,flappyOver;
+const flappyCanvas=document.getElementById('flappyCanvas');
+const flappyCtx=flappyCanvas.getContext('2d');
+
+function initFlappy(){
+ clearInterval(flappyTimer);
+ bird={x:70,y:200,vy:0};
+ flappyPipes=[{x:360,gap:170,passed:false}];
+ flappyScore=0;flappyOver=false;
+ document.getElementById('flappyScore').textContent='0';
+ flappyTimer=setInterval(stepFlappy,30);
+}
+function flap(){if(!flappyOver)bird.vy=-7}
+flappyCanvas.onclick=flap;
+document.addEventListener('keydown',e=>{
+ if(e.code==='Space'&&document.getElementById('flappyMenu').style.display==='flex'){e.preventDefault();flap()}
+});
+function stepFlappy(){
+ bird.vy+=.35;bird.y+=bird.vy;
+ if(flappyPipes[flappyPipes.length-1].x<220)
+   flappyPipes.push({x:360,gap:100+Math.random()*220,passed:false});
+ flappyPipes.forEach(p=>p.x-=2.5);
+ if(flappyPipes[0].x<-60)flappyPipes.shift();
+ for(const p of flappyPipes){
+   if(!p.passed&&p.x+50<bird.x){p.passed=true;flappyScore++;document.getElementById('flappyScore').textContent=flappyScore}
+   if(bird.x+14>p.x&&bird.x-14<p.x+50&&(bird.y-14<p.gap-65||bird.y+14>p.gap+65))flappyOver=true;
+ }
+ if(bird.y<0||bird.y>420)flappyOver=true;
+ flappyCtx.fillStyle='#38bdf8';flappyCtx.fillRect(0,0,360,420);
+ flappyCtx.fillStyle='#22c55e';
+ flappyPipes.forEach(p=>{flappyCtx.fillRect(p.x,0,50,p.gap-65);flappyCtx.fillRect(p.x,p.gap+65,50,420)});
+ flappyCtx.fillStyle='#facc15';flappyCtx.beginPath();flappyCtx.arc(bird.x,bird.y,14,0,Math.PI*2);flappyCtx.fill();
+ if(flappyOver){flappyCtx.fillStyle='#111';flappyCtx.font='bold 25px Arial';flappyCtx.textAlign='center';flappyCtx.fillText('Игра окончена',180,210);clearInterval(flappyTimer)}
+}
+
+/* 2048 */
+let grid2048,score2048;
+function init2048(){grid2048=Array(16).fill(0);score2048=0;add2048();add2048();render2048()}
+function add2048(){
+ let free=grid2048.map((v,i)=>v?null:i).filter(v=>v!==null);
+ if(free.length)grid2048[free[Math.floor(Math.random()*free.length)]]=Math.random()<.9?2:4;
+}
+function move2048(dir){
+ let old=grid2048.join();
+ function line(a){
+   a=a.filter(Boolean);
+   for(let i=0;i<a.length-1;i++)if(a[i]===a[i+1]){a[i]*=2;score2048+=a[i];a[i+1]=0}
+   a=a.filter(Boolean);
+   while(a.length<4)a.push(0);
+   return a;
+ }
+ for(let r=0;r<4;r++){
+   let a=[];
+   for(let c=0;c<4;c++){
+     let i=dir==='left'?r*4+c:dir==='right'?r*4+3-c:dir==='up'?c*4+r:3*4+c-r*4;
+     a.push(grid2048[i]);
+   }
+   if(dir==='right'||dir==='down')a.reverse();
+   a=line(a);
+   if(dir==='right'||dir==='down')a.reverse();
+   for(let c=0;c<4;c++){
+     let i=dir==='left'?r*4+c:dir==='right'?r*4+3-c:dir==='up'?c*4+r:3*4+c-r*4;
+     grid2048[i]=a[c];
+   }
+ }
+ if(old!==grid2048.join())add2048();
+ render2048();
+}
+function render2048(){
+ let g=document.getElementById('grid2048');g.innerHTML='';
+ grid2048.forEach(v=>{
+   let d=document.createElement('div');
+   d.style='width:70px;height:70px;border-radius:10px;background:#334155;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:bold';
+   d.textContent=v||'';g.appendChild(d);
+ });
+ document.getElementById('score2048').textContent=score2048;
+}
+document.addEventListener('keydown',e=>{
+ if(document.getElementById('g2048Menu').style.display!=='flex')return;
+ let d={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'up',ArrowDown:'down'}[e.key];
+ if(d){e.preventDefault();move2048(d)}
+});
+
+/* САПЁР */
+let mines,opened;
+function initMines(){
+ mines=Array(64).fill(false);opened=Array(64).fill(false);
+ let n=0;
+ while(n<10){let i=Math.floor(Math.random()*64);if(!mines[i]){mines[i]=true;n++}}
+ renderMines();
+}
+function mineCount(i){
+ let r=Math.floor(i/8),c=i%8,n=0;
+ for(let dr=-1;dr<=1;dr++)for(let dc=-1;dc<=1;dc++){
+   let rr=r+dr,cc=c+dc;
+   if(rr>=0&&rr<8&&cc>=0&&cc<8&&mines[rr*8+cc])n++;
+ }
+ return n;
+}
+function revealMine(i){
+ if(opened[i])return;
+ if(mines[i]){
+   opened=opened.map(()=>true);renderMines();
+   setTimeout(()=>alert('💥 Бум! Попробуй ещё раз.'),50);return;
+ }
+ opened[i]=true;
+ if(mineCount(i)===0){
+   let r=Math.floor(i/8),c=i%8;
+   for(let dr=-1;dr<=1;dr++)for(let dc=-1;dc<=1;dc++){
+     let rr=r+dr,cc=c+dc;
+     if(rr>=0&&rr<8&&cc>=0&&cc<8)revealMine(rr*8+cc);
+   }
+ }
+ renderMines();
+ if(opened.filter((v,i)=>v&&!mines[i]).length===54)
+   setTimeout(()=>alert('🏆 Ты победил!'),50);
+}
+function renderMines(){
+ let g=document.getElementById('minesGrid');g.innerHTML='';
+ for(let i=0;i<64;i++){
+   let b=document.createElement('button');
+   b.style='width:35px;height:35px;border:0;border-radius:5px;background:#475569;color:white;font-weight:bold;cursor:pointer';
+   b.textContent=opened[i]?(mines[i]?'💣':(mineCount(i)||'')):'?';
+   b.onclick=()=>revealMine(i);g.appendChild(b);
+ }
+}
+
+/* РЕАКЦИЯ */
+let reactionTimer,reactionState,reactionStart;
+function initReaction(){
+ clearTimeout(reactionTimer);
+ reactionState='wait';
+ let b=document.getElementById('reactionBox'),i=document.getElementById('reactionInfo');
+ b.textContent='Подожди...';b.style.background='#b91c1c';
+ i.textContent='Не нажимай слишком рано!';
+ reactionTimer=setTimeout(()=>{
+   reactionState='go';reactionStart=performance.now();
+   b.textContent='ЖМИ!';b.style.background='#16a34a';i.textContent='Сейчас!';
+ },1000+Math.random()*3000);
+}
+document.getElementById('reactionBox').onclick=()=>{
+ let b=document.getElementById('reactionBox'),i=document.getElementById('reactionInfo');
+ if(reactionState==='wait'){
+   clearTimeout(reactionTimer);reactionState='done';
+   b.textContent='Слишком рано 😄';b.style.background='#b91c1c';
+   i.textContent='Нажми «Старт» и попробуй снова';
+ }else if(reactionState==='go'){
+   let ms=Math.round(performance.now()-reactionStart);
+   reactionState='done';b.textContent=ms+' мс';b.style.background='#2563eb';
+   i.textContent=ms<250?'⚡ Молниеносно!':ms<400?'🔥 Очень быстро!':'👍 Неплохо!';
+ }
+};
+</script>
+
+
+<section id="library-section" style="max-width:1100px;margin:50px auto;padding:20px;">
+
+  <h2 style="font-size:34px;margin-bottom:10px;">📚 Библиотека</h2>
+  <p style="opacity:.7;margin-bottom:25px;">Моя коллекция любимых книг</p>
+
+  <input
+    id="bookSearch"
+    type="text"
+    placeholder="🔎 Найти книгу..."
+    oninput="searchBooks()"
+    style="width:100%;box-sizing:border-box;padding:15px 18px;border-radius:14px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:inherit;font-size:16px;margin-bottom:25px;"
+  >
+
+  <div id="booksGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;">
+
+    <div class="book-card" data-title="анна каренина лев толстой"
+      style="padding:22px;border-radius:22px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);">
+
+      <div style="height:230px;border-radius:16px;background:linear-gradient(135deg,#8b1e3f,#d9a441);display:flex;align-items:center;justify-content:center;flex-direction:column;color:white;text-align:center;">
+        <div style="font-size:65px;">📖</div>
+        <div style="font-size:23px;font-weight:bold;">АННА<br>КАРЕНИНА</div>
+        <div style="margin-top:10px;opacity:.9;">Лев Толстой</div>
+      </div>
+
+      <h3 style="font-size:24px;margin-bottom:5px;">Анна Каренина</h3>
+      <p style="opacity:.65;">Лев Толстой</p>
+      <p style="line-height:1.6;">
+        Роман о любви, семье, обществе и сложных человеческих выборах.
+      </p>
+
+      <button onclick="openAnnaReader()"
+        style="padding:12px 20px;border:0;border-radius:12px;cursor:pointer;font-weight:bold;">
+        📖 Читать на сайте
+      </button>
+    </div>
+
+
+    <div class="book-card" data-title="три товарища эрих мария ремарк"
+      style="padding:22px;border-radius:22px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);">
+
+      <div style="height:230px;border-radius:16px;background:linear-gradient(135deg,#263238,#607d8b);display:flex;align-items:center;justify-content:center;flex-direction:column;color:white;text-align:center;">
+        <div style="font-size:65px;">📖</div>
+        <div style="font-size:23px;font-weight:bold;">ТРИ<br>ТОВАРИЩА</div>
+        <div style="margin-top:10px;opacity:.9;">Эрих Мария Ремарк</div>
+      </div>
+
+      <h3 style="font-size:24px;margin-bottom:5px;">Три товарища</h3>
+      <p style="opacity:.65;">Эрих Мария Ремарк</p>
+      <p style="line-height:1.6;">
+        История дружбы, любви и жизни трёх друзей в послевоенной Германии.
+      </p>
+
+      <button onclick="readBook('friends')"
+        style="padding:12px 20px;border:0;border-radius:12px;cursor:pointer;font-weight:bold;">
+        📖 Читать
+      </button>
+    </div>
+
+  </div>
+
+  <p id="noBooks" style="display:none;text-align:center;opacity:.6;margin-top:30px;">
+    😔 Книг не найдено
+  </p>
+
+</section>
+
+<div id="bookModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:9999;align-items:center;justify-content:center;padding:20px;">
+
+  <div style="max-width:620px;width:100%;background:#1c1c24;color:white;border-radius:24px;padding:30px;box-sizing:border-box;box-shadow:0 20px 60px rgba(0,0,0,.5);">
+
+    <div id="modalCover" style="height:180px;border-radius:18px;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;margin-bottom:20px;">
+      <div style="font-size:55px;">📖</div>
+      <div id="modalCoverTitle" style="font-size:24px;font-weight:bold;"></div>
+    </div>
+
+    <h2 id="bookTitle" style="margin-top:0;"></h2>
+    <p id="bookAuthor" style="opacity:.65;"></p>
+    <p id="bookText" style="line-height:1.8;"></p>
+
+    <button onclick="closeBook()"
+      style="padding:12px 22px;border:0;border-radius:12px;cursor:pointer;font-weight:bold;">
+      Закрыть
+    </button>
+
+  </div>
+</div>
+
+<script>
+function searchBooks() {
+  const query = document.getElementById("bookSearch").value.toLowerCase().trim();
+  const cards = document.querySelectorAll(".book-card");
+  let found = 0;
+
+  cards.forEach(card => {
+    const title = card.dataset.title;
+
+    if (title.includes(query)) {
+      card.style.display = "";
+      found++;
+    } else {
+      card.style.display = "none";
+    }
+  });
+
+  document.getElementById("noBooks").style.display =
+    found === 0 ? "block" : "none";
+}
+
+function readBook(book) {
+  const modal = document.getElementById("bookModal");
+  const title = document.getElementById("bookTitle");
+  const author = document.getElementById("bookAuthor");
+  const text = document.getElementById("bookText");
+  const cover = document.getElementById("modalCover");
+  const coverTitle = document.getElementById("modalCoverTitle");
+
+  if (book === "anna") {
+    title.textContent = "📖 Анна Каренина";
+    author.textContent = "Лев Толстой";
+    text.textContent =
+      "Роман рассказывает о любви, семье, общественных правилах и последствиях человеческих решений. Здесь переплетаются несколько сюжетных линий и судьбы разных героев.";
+    cover.style.background = "linear-gradient(135deg,#8b1e3f,#d9a441)";
+    coverTitle.textContent = "АННА КАРЕНИНА";
+  }
+
+  if (book === "friends") {
+    title.textContent = "📖 Три товарища";
+    author.textContent = "Эрих Мария Ремарк";
+    text.textContent =
+      "История Роберта, Отто и Готтфрида — трёх друзей, которых объединяют дружба, воспоминания о войне, любовь и непростая жизнь в послевоенной Германии.";
+    cover.style.background = "linear-gradient(135deg,#263238,#607d8b)";
+    coverTitle.textContent = "ТРИ ТОВАРИЩА";
+  }
+
+  modal.style.display = "flex";
+}
+
+function closeBook() {
+  document.getElementById("bookModal").style.display = "none";
+}
+</script>
+
+
+
+<div id="annaReader" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:10000;padding:15px;">
+
+  <div style="width:100%;height:100%;max-width:1200px;margin:auto;background:#f5f0e6;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;">
+
+    <div style="background:#1e1b4b;color:white;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
+      <div>
+        <b style="font-size:20px;">📖 Анна Каренина</b>
+        <span style="opacity:.7;margin-left:8px;">Лев Толстой</span>
+      </div>
+
+      <button onclick="closeAnnaReader()"
+        style="background:none;border:1px solid white;color:white;border-radius:10px;padding:8px 15px;cursor:pointer;font-size:18px;">
+        ✕
+      </button>
+    </div>
+
+    <div style="background:white;padding:10px 15px;text-align:center;font-family:Arial;">
+      <span style="color:#333;">Полный текст из Викитеки</span>
+      <a href="https://ru.wikisource.org/wiki/Анна_Каренина_(Толстой)"
+         target="_blank"
+         rel="noopener noreferrer"
+         style="margin-left:12px;color:#312e81;font-weight:bold;">
+        Открыть отдельно ↗
+      </a>
+    </div>
+
+    <iframe
+      src="https://ru.wikisource.org/wiki/Анна_Каренина_(Толстой)"
+      title="Анна Каренина — полный текст"
+      style="width:100%;flex:1;border:0;background:white;">
+    </iframe>
+
+  </div>
+</div>
+
+<script>
+function openAnnaReader() {
+  document.getElementById("annaReader").style.display = "block";
+  document.body.style.overflow = "hidden";
+}
+
+function closeAnnaReader() {
+  document.getElementById("annaReader").style.display = "none";
+  document.body.style.overflow = "";
+}
+</script>
+
+</body>
+</html>
