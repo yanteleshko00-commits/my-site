@@ -1507,7 +1507,7 @@ body {
 }
 </style>
 
-</head>
+<style id="WEATHER_BACKGROUND">body{transition:background 1.2s ease,background-color 1.2s ease;background:#172033}.weather-rain,.weather-snow{position:fixed;inset:0;pointer-events:none;z-index:-1;overflow:hidden}.weather-drop{position:absolute;top:-30px;width:2px;height:22px;background:#9bdcffaa;animation:weatherFall linear infinite}.weather-flake{position:absolute;top:-20px;color:#fff9;font-size:18px;animation:weatherSnow linear infinite}@keyframes weatherFall{to{transform:translateY(110vh)}}@keyframes weatherSnow{to{transform:translateY(110vh) rotate(360deg)}}body.weather-sunny{background:linear-gradient(135deg,#4facfe,#00c6ff)}body.weather-cloudy{background:linear-gradient(135deg,#536976,#292e49)}body.weather-rain{background:linear-gradient(135deg,#203a43,#2c5364)}body.weather-snow{background:linear-gradient(135deg,#667db6,#0082c8)}body.weather-storm{background:linear-gradient(135deg,#141e30,#243b55)}body.weather-night{background:linear-gradient(135deg,#020617,#172554)}</style><script>async function updateWeatherBackground(){try{const r=await fetch("https://api.open-meteo.com/v1/forecast?latitude=44.9521&longitude=34.1024&current=weather_code,is_day&timezone=auto");const d=await r.json();const c=d.current.weather_code,day=d.current.is_day;document.body.classList.remove("weather-sunny","weather-cloudy","weather-rain","weather-snow","weather-storm","weather-night");if(!day){document.body.classList.add("weather-night");return}if(c===0||c===1){document.body.classList.add("weather-sunny")}else if(c===2||c===3||c===45||c===48){document.body.classList.add("weather-cloudy")}else if(c>=51&&c<=67||c>=80&&c<=82){document.body.classList.add("weather-rain")}else if(c>=71&&c<=77||c>=85&&c<=86){document.body.classList.add("weather-snow")}else if(c>=95){document.body.classList.add("weather-storm")}else{document.body.classList.add("weather-cloudy")}}catch(e){console.log("Погода недоступна")}}updateWeatherBackground();setInterval(updateWeatherBackground,900000);</script></head>
 <body>
 <header><div class="logo">🚀 MySite</div><nav><a href="#">Главная</a><a href="#about">Обо мне</a><a href="#games">Игры</a><a href="#contact">Контакты</a></nav></header>
 <main>
@@ -1537,11 +1537,11 @@ body {
 </section>
 <section class="profile-section">
 <div class="profile-card">
-<div class="avatar">Я</div>
+<div class="avatar"><img id="randomGirl" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Фото"></div>
 <div><h2>👤 Обо мне</h2><h3>Ян, 15 лет</h3><p>📍 Симферополь</p><p>Учусь программировать, люблю игры и создаю сайты.</p></div>
 </div>
 </section>
-<section class="contact-section" id="contact">
+<section class="friends-section"><h2>👥 Мои друзья</h2><div class="friends-grid"><div class="friend-tile">🍃<b>Мистер Лист</b></div><div class="friend-tile">🇺🇸<b>Трамп</b></div><div class="friend-tile">🕴️<b>Эпштейн</b></div><div class="friend-tile">💻<b>Билл Гейтс</b></div><div class="friend-tile">📄<b>Влад — бумага А4</b></div><div class="friend-tile">🕷️<b>Человек-паук</b></div><div class="friend-tile">🍎<b>Стив Джобс</b></div><div class="friend-tile">🪿<b>Гусь</b></div></div></section><style>.friends-section{margin:35px 0}.friends-section h2{text-align:center;font-size:30px;margin-bottom:20px}.friends-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.friend-tile{min-height:110px;padding:18px;border-radius:22px;background:linear-gradient(145deg,#ffffff18,#ffffff08);border:1px solid #ffffff18;box-shadow:0 10px 30px #0003;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;font-size:38px;transition:.2s}.friend-tile b{font-size:16px;text-align:center}.friend-tile:hover{transform:translateY(-5px) scale(1.02)}@media(max-width:700px){.friends-grid{grid-template-columns:repeat(2,1fr)}}</style><section class="contact-section" id="contact">
 <div class="contact-card"><h2>📱 Мои контакты</h2><p>Если хочешь связаться со мной:</p>
 <a class="telegram-button" href="https://t.me/Ianchik121" target="_blank" rel="noopener noreferrer">✈️ Telegram: @Ianchik121</a></div>
 </section>
@@ -1573,8 +1573,217 @@ const sc=document.getElementById('snakeCanvas'),sx=sc.getContext('2d'),cell=20,g
 function initSnake(){clearInterval(st);document.getElementById('snakeRestart').style.display='none';snake=[{x:9,y:9},{x:8,y:9},{x:7,y:9}];food=randFood();sd={x:1,y:0};queued=sd;ss=0;document.getElementById('snakeScore').textContent=ss;document.getElementById('snakeHint').textContent='Управление: стрелки на клавиатуре';drawSnake();st=setInterval(stepSnake,120)}
 function randFood(){let f;do{f={x:Math.floor(Math.random()*gridN),y:Math.floor(Math.random()*gridN)}}while(snake&&snake.some(p=>p.x===f.x&&p.y===f.y));return f}
 function snakeDir(x,y){if(x!==-sd.x||y!==-sd.y)queued={x,y}}
-function stepSnake(){sd=queued;let h={x:snake[0].x+sd.x,y:snake[0].y+sd.y};if(h.x<0||h.x>=gridN||h.y<0||h.y>=gridN||snake.some(p=>p.x===h.x&&p.y===h.y)){clearInterval(st);document.getElementById('snakeHint').textContent='💥 Игра окончена!';document.getElementById('snakeRestart').style.display='block';drawSnake();return}snake.unshift(h);if(h.x===food.x&&h.y===food.y){ss+=10;document.getElementById('snakeScore').textContent=ss;food=randFood()}else snake.pop();drawSnake()}
-function drawSnake(){sx.fillStyle='#0b1220';sx.fillRect(0,0,sc.width,sc.height);sx.strokeStyle='#1f2937';for(let i=0;i<=gridN;i++){sx.beginPath();sx.moveTo(i*cell,0);sx.lineTo(i*cell,sc.height);sx.stroke();sx.beginPath();sx.moveTo(0,i*cell);sx.lineTo(sc.width,i*cell);sx.stroke()}sx.fillStyle='#ef4444';sx.beginPath();sx.arc(food.x*cell+10,food.y*cell+10,8,0,Math.PI*2);sx.fill();snake.forEach((p,i)=>{sx.fillStyle=i===0?'#86efac':'#22c55e';sx.fillRect(p.x*cell+2,p.y*cell+2,16,16)})}
+function stepSnake(){sd=queued;let h={x:snake[0].x+sd.x,y:snake[0].y+sd.y};if(h.x<0||h.x>=gridN||h.y<0||h.y>=gridN||snake.some(p=>p.x===h.x&&p.y===h.y)){clearInterval(st);document.getElementById('snakeHint').textContent='💥 Игра окончена!';document.getElementById('snakeRestart').style.display='block';drawSnake();return}snake.unshift(h);if(h.x===food.x&&h.y===food.y){snakeEatPulse=1;ss+=10;document.getElementById('snakeScore').textContent=ss;food=randFood()}else snake.pop();drawSnake()}
+function drawSnake(){
+    sx.clearRect(0,0,sc.width,sc.height);
+    /* ФОН */
+    sx.fillStyle='#07111f';
+    sx.fillRect(0,0,sc.width,sc.height);
+
+    /* СЕТКА */
+    sx.strokeStyle='rgba(255,255,255,.055)';
+    sx.lineWidth=1;
+
+    for(let i=0;i<=gridN;i++){
+        sx.beginPath();
+        sx.moveTo(i*cell,0);
+        sx.lineTo(i*cell,sc.height);
+        sx.stroke();
+
+        sx.beginPath();
+        sx.moveTo(0,i*cell);
+        sx.lineTo(sc.width,i*cell);
+        sx.stroke();
+    }
+
+    /* ЯБЛОКО */
+    const fx=food.x*cell+cell/2;
+    const fy=food.y*cell+cell/2;
+
+    const appleScale =
+        1 + Math.sin(Date.now()/160)*0.045;
+
+    sx.save();
+    sx.translate(fx,fy);
+    sx.scale(appleScale,appleScale);
+
+    /* тень */
+    sx.fillStyle='rgba(0,0,0,.25)';
+    sx.beginPath();
+    sx.ellipse(0,8,9,3,0,0,Math.PI*2);
+    sx.fill();
+
+    /* яблоко */
+    const appleGradient=sx.createRadialGradient(
+        -3,-4,1,
+        0,0,12
+    );
+
+    appleGradient.addColorStop(0,'#ff7b7b');
+    appleGradient.addColorStop(.45,'#ef4444');
+    appleGradient.addColorStop(1,'#b91c1c');
+
+    sx.fillStyle=appleGradient;
+
+    sx.beginPath();
+    sx.arc(-4,1,7,0,Math.PI*2);
+    sx.arc(4,1,7,0,Math.PI*2);
+    sx.fill();
+
+    /* углубление */
+    sx.fillStyle='#991b1b';
+    sx.beginPath();
+    sx.arc(0,-1,2,0,Math.PI*2);
+    sx.fill();
+
+    /* черешок */
+    sx.strokeStyle='#65a30d';
+    sx.lineWidth=3;
+    sx.lineCap='round';
+
+    sx.beginPath();
+    sx.moveTo(0,-6);
+    sx.quadraticCurveTo(2,-12,7,-10);
+    sx.stroke();
+
+    /* лист */
+    sx.fillStyle='#84cc16';
+    sx.beginPath();
+    sx.ellipse(6,-10,5,2.5,-.45,0,Math.PI*2);
+    sx.fill();
+
+    /* блик */
+    sx.fillStyle='rgba(255,255,255,.8)';
+    sx.beginPath();
+    sx.arc(-5,-2,2,0,Math.PI*2);
+    sx.fill();
+
+    sx.restore();
+
+    /* ЗМЕЯ */
+    snake.forEach((p,i)=>{
+        const x=p.x*cell+cell/2;
+        const y=p.y*cell+cell/2;
+
+        sx.save();
+
+        /* анимация проглатывания */
+        if(i===0 && typeof snakeEatPulse!=="undefined" && snakeEatPulse>0){
+            const pulse =
+                1 + Math.sin(snakeEatPulse*Math.PI)*.16;
+
+            sx.translate(x,y);
+            sx.scale(pulse,pulse);
+            sx.translate(-x,-y);
+        }
+
+        /* тень */
+        sx.fillStyle='rgba(0,0,0,.28)';
+        sx.beginPath();
+        sx.ellipse(x,y+6,8,3,0,0,Math.PI*2);
+        sx.fill();
+
+        /* градиент тела */
+        const gradient=sx.createLinearGradient(
+            x-9,y-9,
+            x+9,y+9
+        );
+
+        if(i===0){
+            gradient.addColorStop(0,'#bbf7d0');
+            gradient.addColorStop(.45,'#4ade80');
+            gradient.addColorStop(1,'#15803d');
+        }else{
+            gradient.addColorStop(0,'#86efac');
+            gradient.addColorStop(1,'#16a34a');
+        }
+
+        sx.fillStyle=gradient;
+
+        sx.beginPath();
+        sx.roundRect(
+            p.x*cell+2,
+            p.y*cell+2,
+            cell-4,
+            cell-4,
+            i===0 ? 9 : 7
+        );
+        sx.fill();
+
+        /* верхний блик */
+        sx.fillStyle='rgba(255,255,255,.2)';
+        sx.beginPath();
+        sx.roundRect(
+            p.x*cell+5,
+            p.y*cell+4,
+            cell-10,
+            3,
+            2
+        );
+        sx.fill();
+
+        /* ГОЛОВА */
+        if(i===0){
+
+            let ex1=x-4;
+            let ex2=x+4;
+            let ey=y-4;
+
+            if(sd.x===1){
+                ex1=x+4;
+                ex2=x+4;
+                ey=y-4;
+            }
+
+            if(sd.x===-1){
+                ex1=x-4;
+                ex2=x-4;
+                ey=y-4;
+            }
+
+            if(sd.y===1){
+                ex1=x-4;
+                ex2=x+4;
+                ey=y+4;
+            }
+
+            if(sd.y===-1){
+                ex1=x-4;
+                ex2=x+4;
+                ey=y-5;
+            }
+
+            /* белки */
+            sx.fillStyle='white';
+
+            sx.beginPath();
+            sx.arc(ex1,ey,3.2,0,Math.PI*2);
+            sx.arc(ex2,ey,3.2,0,Math.PI*2);
+            sx.fill();
+
+            /* зрачки */
+            sx.fillStyle='#111827';
+
+            sx.beginPath();
+            sx.arc(ex1,ey,1.5,0,Math.PI*2);
+            sx.arc(ex2,ey,1.5,0,Math.PI*2);
+            sx.fill();
+        }
+
+        sx.restore();
+    });
+
+    /* анимация проглатывания */
+    if(typeof snakeEatPulse!=="undefined" && snakeEatPulse>0){
+        snakeEatPulse-=0.055;
+
+        requestAnimationFrame(()=>{
+            if(snakeEatPulse>0){
+                drawSnake();
+            }
+        });
+    }
+}
 function startSnake(){closeOverlay('gamesMenu');document.getElementById('snakeMenu').style.display='flex';initSnake()}
 function closeSnake(){clearInterval(st);closeOverlay('snakeMenu')}
 document.addEventListener('keydown',e=>{if(document.getElementById('snakeMenu').style.display==='flex'){if(e.key==='ArrowUp')snakeDir(0,-1);if(e.key==='ArrowDown')snakeDir(0,1);if(e.key==='ArrowLeft')snakeDir(-1,0);if(e.key==='ArrowRight')snakeDir(1,0)}});
@@ -4479,7 +4688,40 @@ window.closeBlockBlast=function(){
 
 
 
-</body>
+<script id="SNAKE_TOUCH_CONTROLS">
+(function(){
+    let snakeTouchStartX=0;
+    let snakeTouchStartY=0;
+
+    const canvas=document.getElementById('snakeCanvas');
+    if(!canvas) return;
+
+    canvas.addEventListener('touchstart',function(e){
+        const t=e.touches[0];
+
+        snakeTouchStartX=t.clientX;
+        snakeTouchStartY=t.clientY;
+    },{passive:true});
+
+    canvas.addEventListener('touchend',function(e){
+        const t=e.changedTouches[0];
+
+        const dx=t.clientX-snakeTouchStartX;
+        const dy=t.clientY-snakeTouchStartY;
+
+        if(Math.max(Math.abs(dx),Math.abs(dy))<25) return;
+
+        if(Math.abs(dx)>Math.abs(dy)){
+            if(dx>0) snakeDir(1,0);
+            else snakeDir(-1,0);
+        }else{
+            if(dy>0) snakeDir(0,1);
+            else snakeDir(0,-1);
+        }
+    },{passive:true});
+})();
+</script>
+<script>const girlPhotos=["44","56","63","68","75"];document.getElementById("randomGirl").src="https://randomuser.me/api/portraits/women/"+girlPhotos[Math.floor(Math.random()*girlPhotos.length)]+".jpg";</script></body>
 </html>
 <style>
 #terrariaMenu,
